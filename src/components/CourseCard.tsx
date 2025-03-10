@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { BookOpen, Lock, Play, CheckCircle, Clock } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Link } from "react-router-dom";
 
 interface CourseCardProps {
   course: BookCourse;
@@ -52,23 +53,38 @@ const CourseCard = ({ course }: CourseCardProps) => {
         );
       case "completed":
         return (
-          <Button className="w-full bg-green-600 hover:bg-green-700 mt-4">
-            <CheckCircle className="h-4 w-4 mr-2" />
-            Review
+          <Button 
+            className="w-full bg-green-600 hover:bg-green-700 mt-4"
+            asChild
+          >
+            <Link to={`/reader/${course.id}`}>
+              <CheckCircle className="h-4 w-4 mr-2" />
+              Review
+            </Link>
           </Button>
         );
       case "in-progress":
         return (
-          <Button className="w-full bg-bible-blue hover:bg-bible-navy mt-4">
-            <Play className="h-4 w-4 mr-2" />
-            Continue
+          <Button 
+            className="w-full bg-bible-blue hover:bg-bible-navy mt-4"
+            asChild
+          >
+            <Link to={`/reader/${course.id}`}>
+              <Play className="h-4 w-4 mr-2" />
+              Continue
+            </Link>
           </Button>
         );
       default:
         return (
-          <Button className="w-full bg-bible-navy hover:bg-bible-blue mt-4">
-            <Play className="h-4 w-4 mr-2" />
-            Start
+          <Button 
+            className="w-full bg-bible-navy hover:bg-bible-blue mt-4"
+            asChild
+          >
+            <Link to={`/reader/${course.id}`}>
+              <Play className="h-4 w-4 mr-2" />
+              Start
+            </Link>
           </Button>
         );
     }

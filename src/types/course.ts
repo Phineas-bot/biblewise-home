@@ -14,3 +14,30 @@ export interface BookCourse {
   isPopular: boolean;
   lessons: number;
 }
+
+export interface BookChapter {
+  id: number;
+  title: string;
+  sections: BookSection[];
+}
+
+export interface BookSection {
+  id: number;
+  title: string;
+  content: string;
+}
+
+export interface BookProgress {
+  currentChapter: number;
+  currentSection: number;
+  readPages: number;
+  totalPages: number;
+  bookmarks: number[];
+  highlights: {
+    id: number;
+    text: string;
+    color: string;
+    chapterId: number;
+    sectionId: number;
+  }[];
+}
