@@ -13,6 +13,7 @@ export interface BookCourse {
   isNew: boolean;
   isPopular: boolean;
   lessons: number;
+  quizzes?: number[]; // IDs of associated quizzes
 }
 
 export interface BookChapter {
