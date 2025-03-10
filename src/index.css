@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -13,10 +14,10 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 222.2 47.4% 11.2%;
+    --primary: 221 83% 53%;
     --primary-foreground: 210 40% 98%;
 
-    --secondary: 210 40% 96.1%;
+    --secondary: 43 74% 49%;
     --secondary-foreground: 222.2 47.4% 11.2%;
 
     --muted: 210 40% 96.1%;
@@ -35,19 +36,12 @@
     --radius: 0.5rem;
 
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
     --sidebar-primary: 240 5.9% 10%;
-
     --sidebar-primary-foreground: 0 0% 98%;
-
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
     --sidebar-border: 220 13% 91%;
-
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
@@ -97,5 +91,32 @@
 
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer components {
+  .bible-gradient {
+    @apply bg-gradient-to-br from-bible-blue via-bible-navy to-bible-blue;
+  }
+  
+  .gold-gradient {
+    @apply bg-gradient-to-r from-bible-gold/80 to-bible-gold;
+  }
+  
+  .scroll-container::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  .scroll-container::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+
+  .scroll-container::-webkit-scrollbar-thumb {
+    @apply bg-bible-navy/40 rounded-full;
+  }
+
+  .scroll-container::-webkit-scrollbar-thumb:hover {
+    @apply bg-bible-navy/60;
   }
 }
