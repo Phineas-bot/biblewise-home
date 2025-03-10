@@ -17,7 +17,7 @@ const Navbar = () => {
         <div className="flex items-center">
           <a href="/" className="flex items-center gap-2 font-semibold text-xl text-bible-navy">
             <BookOpen className="h-6 w-6 text-bible-blue" />
-            <span>BibleWise</span>
+            <span>Bible Correspondence Course</span>
           </a>
         </div>
 

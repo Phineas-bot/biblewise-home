@@ -9,7 +9,7 @@ const Footer = () => {
           <div className="md:col-span-1">
             <a href="/" className="flex items-center gap-2 font-semibold text-xl text-white mb-4">
               <BookOpen className="h-6 w-6 text-bible-gold" />
-              <span>BibleWise</span>
+              <span>Bible Correspondence Course</span>
             </a>
             <p className="text-white/80 text-sm mb-6">
               Deepening your understanding of Scripture through expert-led courses and resources.
@@ -65,7 +65,7 @@ const Footer = () => {
         </div>
         
         <div className="mt-12 pt-6 border-t border-white/20 text-center text-sm text-white/60">
-          <p>© {new Date().getFullYear()} BibleWise. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Bible Correspondence Course. All rights reserved.</p>
         </div>
       </div>
     </footer>
