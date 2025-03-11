@@ -6,7 +6,7 @@ const AuthorSpotlight = () => {
   return (
     <section className="py-12 bg-white">
       <div className="container mx-auto px-4">
-        <h2 className="text-2xl md:text-3xl font-bold text-bible-navy mb-8 text-center">Author Spotlight</h2>
+        <h2 className="text-2xl md:text-3xl font-bold text-bible-navy mb-8 text-center">Author of The Christian Way Series</h2>
         
         <div className="flex flex-col lg:flex-row items-center gap-8">
           <div className="lg:w-1/3 flex-shrink-0">
@@ -28,19 +28,19 @@ const AuthorSpotlight = () => {
           <div className="lg:w-2/3">
             <h3 className="text-xl font-semibold text-bible-navy mb-3 lg:hidden">Prof. Zacharias Tanee Fomum</h3>
             <p className="text-gray-700 mb-4">
-              Prof. Zacharias Tanee Fomum was a professor of Organic Chemistry and a servant of God who influenced countless lives through his teachings and writings. Born in Cameroon, he dedicated his life to the proclamation of the Gospel and discipleship.
+              Prof. Zacharias Tanee Fomum was a professor of Organic Chemistry and a servant of God who authored "The Christian Way Series" - a comprehensive 12-book collection that has guided countless believers through their spiritual journey.
             </p>
             <p className="text-gray-700 mb-4">
-              With over 150 books published on various aspects of Christian life and ministry, Prof. Fomum's works have been translated into over 50 languages and have touched millions of lives across the world. His teachings on prayer, fasting, spiritual leadership, and holiness continue to transform lives today.
+              Born in Cameroon, he dedicated his life to discipleship and the proclamation of the Gospel. His teachings on prayer, fasting, spiritual leadership, and holiness continue to transform lives worldwide through his more than 150 books translated into over 50 languages.
             </p>
             <p className="text-gray-700 mb-6">
-              He founded the Christian Missionary Fellowship International (CMFI), a global ministry focused on raising disciples for Christ in every nation. His legacy lives on through his books, audio messages, and the many lives he mentored.
+              The Christian Way Series represents his life's work in distilling biblical principles into practical steps for Christian growth, from salvation to spiritual leadership and ministry effectiveness.
             </p>
             
             <div className="flex flex-wrap gap-4">
               <Button className="bg-bible-navy hover:bg-bible-blue">
                 <BookOpen className="mr-2 h-4 w-4" />
-                View All Books
+                Explore The Christian Way Series
               </Button>
               <Button variant="outline" className="border-bible-navy text-bible-navy hover:bg-bible-navy hover:text-white">
                 Learn More About His Life
