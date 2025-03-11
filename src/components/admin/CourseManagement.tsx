@@ -39,7 +39,7 @@ import {
   FileText,
   Image
 } from "lucide-react";
-import { BookCourse } from "@/types/course";
+import { BookCourse, CourseStatus } from "@/types/course";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 // Mock data for courses
@@ -134,15 +134,15 @@ const CourseManagement = () => {
     // In a real application, this would send data to an API
     const id = Math.max(...courses.map(course => course.id)) + 1;
     const courseToAdd = {
-      ...(newCourse as BookCourse),
+      ...newCourse,
       id
-    };
+    } as BookCourse;
     setCourses([...courses, courseToAdd]);
     setIsAddDialogOpen(false);
     // Reset newCourse for next addition
     setNewCourse({
       author: "Prof. Zacharias Tanee Fomum",
-      status: "locked",
+      status: "locked" as CourseStatus,
       progress: 0,
       isNew: true,
       isPopular: false,
@@ -155,7 +155,7 @@ const CourseManagement = () => {
       if (course.id === courseId) {
         return {
           ...course,
-          status: course.status === "locked" ? "unlocked" : "locked"
+          status: course.status === "locked" ? "unlocked" as CourseStatus : "locked" as CourseStatus
         };
       }
       return course;

@@ -1,9 +1,17 @@
+
 import * as React from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Calendar as CalendarIcon } from "lucide-react";
 import { DayPicker } from "react-day-picker";
+import { format } from "date-fns";
 
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import { buttonVariants } from "@/components/ui/button";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker>;
 
@@ -62,3 +70,32 @@ function Calendar({
 Calendar.displayName = "Calendar";
 
 export { Calendar };
+
+// Add a new export for the CalendarDateRangePicker component
+export function CalendarDateRangePicker() {
+  const [date, setDate] = React.useState<Date | undefined>(new Date());
+
+  return (
+    <div className="flex items-center">
+      <Popover>
+        <PopoverTrigger asChild>
+          <Button
+            variant="outline"
+            className="justify-start text-left font-normal w-[240px]"
+          >
+            <CalendarIcon className="mr-2 h-4 w-4" />
+            {date ? format(date, "PPP") : <span>Pick a date</span>}
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="w-auto p-0" align="start">
+          <Calendar
+            mode="single"
+            selected={date}
+            onSelect={setDate}
+            initialFocus
+          />
+        </PopoverContent>
+      </Popover>
+    </div>
+  );
+}
