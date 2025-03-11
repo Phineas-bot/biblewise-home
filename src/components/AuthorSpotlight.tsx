@@ -4,7 +4,7 @@ import { BookOpen, ExternalLink } from "lucide-react";
 
 const AuthorSpotlight = () => {
   return (
-    <section className="py-12 bg-white">
+    <section className="py-12 bg-gray-50">
       <div className="container mx-auto px-4">
         <h2 className="text-2xl md:text-3xl font-bold text-bible-navy mb-8 text-center">Author of The Christian Way Series</h2>
         
@@ -28,19 +28,19 @@ const AuthorSpotlight = () => {
           <div className="lg:w-2/3">
             <h3 className="text-xl font-semibold text-bible-navy mb-3 lg:hidden">Prof. Zacharias Tanee Fomum</h3>
             <p className="text-gray-700 mb-4">
-              Prof. Zacharias Tanee Fomum was a professor of Organic Chemistry and a servant of God who authored "The Christian Way Series" - a comprehensive 12-book collection that has guided countless believers through their spiritual journey.
+              Prof. Zacharias Tanee Fomum was a professor of Organic Chemistry and a devoted servant of God who authored "The Christian Way Series" - a comprehensive 12-book collection that has guided countless believers through their spiritual journey.
             </p>
             <p className="text-gray-700 mb-4">
               Born in Cameroon, he dedicated his life to discipleship and the proclamation of the Gospel. His teachings on prayer, fasting, spiritual leadership, and holiness continue to transform lives worldwide through his more than 150 books translated into over 50 languages.
             </p>
             <p className="text-gray-700 mb-6">
-              The Christian Way Series represents his life's work in distilling biblical principles into practical steps for Christian growth, from salvation to spiritual leadership and ministry effectiveness.
+              The Christian Way Series represents his life's work in distilling biblical principles into practical steps for Christian growth, from salvation to spiritual leadership and ministry effectiveness. His vision was to raise disciples who would walk in the footsteps of Christ.
             </p>
             
             <div className="flex flex-wrap gap-4">
               <Button className="bg-bible-navy hover:bg-bible-blue">
                 <BookOpen className="mr-2 h-4 w-4" />
-                Explore The Christian Way Series
+                Explore All Books by Prof. Fomum
               </Button>
               <Button variant="outline" className="border-bible-navy text-bible-navy hover:bg-bible-navy hover:text-white">
                 Learn More About His Life

@@ -4,6 +4,7 @@ import Hero from "@/components/Hero";
 import AuthorSpotlight from "@/components/AuthorSpotlight";
 import ContinueLearning from "@/components/ContinueLearning";
 import CourseProgression from "@/components/CourseProgression";
+import CourseSeriesGrid from "@/components/CourseSeriesGrid";
 import Testimonials from "@/components/Testimonials";
 import RecommendedBooks from "@/components/RecommendedBooks";
 import Footer from "@/components/Footer";
@@ -14,9 +15,10 @@ const Index = () => {
       <Navbar />
       <main className="flex-grow">
         <Hero />
-        <AuthorSpotlight />
         <ContinueLearning />
+        <CourseSeriesGrid />
         <CourseProgression />
+        <AuthorSpotlight />
         <Testimonials />
         <RecommendedBooks />
       </main>
