@@ -7,48 +7,48 @@ import { cn } from "@/lib/utils";
 const books = [
   {
     id: 1,
-    title: "The Purpose Driven Life",
-    author: "Rick Warren",
-    description: "Discover the answer to life's most fundamental question: What on earth am I here for?",
+    title: "The Way of Discipleship",
+    author: "Prof. Z.T. Fomum",
+    description: "A comprehensive guide to becoming and making disciples for Christ through practical biblical principles.",
     rating: 4.8,
     image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=387&q=80",
-    category: "Christian Living"
+    category: "Discipleship"
   },
   {
     id: 2,
-    title: "Mere Christianity",
-    author: "C.S. Lewis",
-    description: "Lewis's forceful and accessible doctrine of Christian belief.",
+    title: "The Ministry of Fasting",
+    author: "Prof. Z.T. Fomum",
+    description: "An insightful exploration of biblical fasting and its transformative power in the believer's life.",
     rating: 4.9,
     image: "https://images.unsplash.com/photo-1476275466078-4007374efbbe?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=387&q=80",
-    category: "Theology"
+    category: "Spiritual Disciplines"
   },
   {
     id: 3,
-    title: "Knowing God",
-    author: "J.I. Packer",
-    description: "A journey into the Father's heart, written with simplicity and theological depth.",
+    title: "The Art of Intercession",
+    author: "Prof. Z.T. Fomum",
+    description: "Discover the principles and practice of effective prayer that brings transformation to individuals and nations.",
     rating: 4.7,
     image: "https://images.unsplash.com/photo-1532012197267-da84d127e765?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=387&q=80",
-    category: "Theology"
+    category: "Prayer"
   },
   {
     id: 4,
-    title: "The Cost of Discipleship",
-    author: "Dietrich Bonhoeffer",
-    description: "A compelling case for the necessity of sacrificial Christian service.",
+    title: "Practical Spiritual Leadership",
+    author: "Prof. Z.T. Fomum",
+    description: "A guide to developing godly leadership skills through character, vision, and spiritual maturity.",
     rating: 4.6,
     image: "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=387&q=80",
-    category: "Classics"
+    category: "Leadership"
   },
   {
     id: 5,
-    title: "The Reason for God",
-    author: "Timothy Keller",
-    description: "Making a case for God in an age of skepticism.",
+    title: "The Christian and Money",
+    author: "Prof. Z.T. Fomum",
+    description: "Biblical principles for handling finances with wisdom and integrity as a disciple of Christ.",
     rating: 4.7,
     image: "https://images.unsplash.com/photo-1491841550275-ad7854e35ca6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=387&q=80",
-    category: "Apologetics"
+    category: "Stewardship"
   },
 ];
 
@@ -75,9 +75,9 @@ const RecommendedBooks = () => {
     <section className="py-12 bg-bible-sand/30">
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center mb-8">
-          <h2 className="text-2xl font-bold text-bible-navy">Recommended Books</h2>
+          <h2 className="text-2xl font-bold text-bible-navy">Featured Books by Prof. Z.T. Fomum</h2>
           <Button variant="link" className="text-bible-blue">
-            Browse Library
+            Browse All Books
           </Button>
         </div>
         

@@ -1,0 +1,57 @@
+
+import { Button } from "@/components/ui/button";
+import { BookOpen, ExternalLink } from "lucide-react";
+
+const AuthorSpotlight = () => {
+  return (
+    <section className="py-12 bg-white">
+      <div className="container mx-auto px-4">
+        <h2 className="text-2xl md:text-3xl font-bold text-bible-navy mb-8 text-center">Author Spotlight</h2>
+        
+        <div className="flex flex-col lg:flex-row items-center gap-8">
+          <div className="lg:w-1/3 flex-shrink-0">
+            <div className="relative rounded-lg overflow-hidden shadow-lg aspect-[3/4] max-w-[320px] mx-auto">
+              <img 
+                src="https://images.unsplash.com/photo-1581824043583-6904b080a19c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=987&q=80" 
+                alt="Prof. Zacharias Tanee Fomum" 
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent">
+                <div className="absolute bottom-4 left-4 right-4">
+                  <h3 className="text-white text-xl font-bold">Prof. Zacharias Tanee Fomum</h3>
+                  <p className="text-white/90 text-sm">Servant of God (1945-2009)</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div className="lg:w-2/3">
+            <h3 className="text-xl font-semibold text-bible-navy mb-3 lg:hidden">Prof. Zacharias Tanee Fomum</h3>
+            <p className="text-gray-700 mb-4">
+              Prof. Zacharias Tanee Fomum was a professor of Organic Chemistry and a servant of God who influenced countless lives through his teachings and writings. Born in Cameroon, he dedicated his life to the proclamation of the Gospel and discipleship.
+            </p>
+            <p className="text-gray-700 mb-4">
+              With over 150 books published on various aspects of Christian life and ministry, Prof. Fomum's works have been translated into over 50 languages and have touched millions of lives across the world. His teachings on prayer, fasting, spiritual leadership, and holiness continue to transform lives today.
+            </p>
+            <p className="text-gray-700 mb-6">
+              He founded the Christian Missionary Fellowship International (CMFI), a global ministry focused on raising disciples for Christ in every nation. His legacy lives on through his books, audio messages, and the many lives he mentored.
+            </p>
+            
+            <div className="flex flex-wrap gap-4">
+              <Button className="bg-bible-navy hover:bg-bible-blue">
+                <BookOpen className="mr-2 h-4 w-4" />
+                View All Books
+              </Button>
+              <Button variant="outline" className="border-bible-navy text-bible-navy hover:bg-bible-navy hover:text-white">
+                Learn More About His Life
+                <ExternalLink className="ml-2 h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default AuthorSpotlight;

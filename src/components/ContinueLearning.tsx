@@ -6,26 +6,26 @@ import { Progress } from "@/components/ui/progress";
 const courses = [
   {
     id: 1,
-    title: "Understanding the Gospels",
+    title: "The School of Prayer",
     image: "https://images.unsplash.com/photo-1504052434569-70ad5836ab65?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
     progress: 65,
-    currentLesson: "Parables of Jesus",
+    currentLesson: "Principles of Intercession",
     duration: "10 min remaining"
   },
   {
     id: 2,
-    title: "Old Testament Survey",
+    title: "Spiritual Leadership",
     image: "https://images.unsplash.com/photo-1507131924971-8b1f886c8549?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
     progress: 32,
-    currentLesson: "The Book of Genesis",
+    currentLesson: "Character Formation",
     duration: "15 min remaining"
   },
   {
     id: 3,
-    title: "Bible Study Methods",
+    title: "Biblical Fasting",
     image: "https://images.unsplash.com/photo-1579621970590-9d624316781b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
     progress: 18,
-    currentLesson: "Inductive Study Method",
+    currentLesson: "Types of Biblical Fasts",
     duration: "20 min remaining"
   }
 ];
@@ -35,7 +35,7 @@ const ContinueLearning = () => {
     <section className="py-12 bg-white">
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center mb-8">
-          <h2 className="text-2xl font-bold text-bible-navy">Continue Learning</h2>
+          <h2 className="text-2xl font-bold text-bible-navy">Continue Your Studies</h2>
           <Button variant="link" className="text-bible-blue">
             View All Courses
           </Button>
