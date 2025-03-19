@@ -7,12 +7,7 @@
 ## How can I edit this code?
 
 There are several ways of editing your application.
-
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/a88fb83f-857e-4b91-97ec-c0cc39ceb02c) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
+.
 
 **Use your preferred IDE**
 
