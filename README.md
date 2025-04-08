@@ -1,4 +1,4 @@
-# Welcome to your Lovable project
+# Welcome to CMFI CBC project
 
 ## Project info
 
@@ -31,11 +31,7 @@ npm i
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
 
 **Use GitHub Codespaces**
 
@@ -55,10 +51,32 @@ This project is built with .
 - shadcn-ui
 - Tailwind CSS
 
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/a88fb83f-857e-4b91-97ec-c0cc39ceb02c) and click on Share -> Publish.
 
 ##  to use a custom domain - is that possible?
 
  don't support custom domains (yet). to deploy project under your own domain then we recommend using Netlify. Visit our docs for more details: [Custom domains](https://docs.lovable.dev/tips-tricks/custom-domain/)
+
+
+## ⚠️ Collaboration Guidelines
+
+To ensure smooth collaboration and project consistency, please follow these important guidelines:
+
+🚫 Do Not Alter:
+The workflow or project structure.
+
+The order or hierarchy of files/folders.
+
+Any existing file names unless explicitly instructed.
+
+The main branch workflow, build tools, or configuration files (e.g., .gitignore, package.json, README.md, etc.).
+
+✅ Please:
+Only make changes in your assigned areas.
+
+If you're unsure about any modification, ask first via issues or discussions.
+
+Always pull the latest changes before pushing.
+
+Create a new branch for your work and make a pull request (PR) for review.
+
+📁 Project Structure – Do Not Modify
