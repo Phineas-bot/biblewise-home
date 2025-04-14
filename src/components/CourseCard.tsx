@@ -3,6 +3,7 @@ import { BookCourse } from "@/types/course";
 import CourseStatusBadge from "./course/CourseStatusBadge";
 import CourseActionButton from "./course/CourseActionButton";
 import CourseProgress from "./course/CourseProgress";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
 
 interface CourseCardProps {
   course: BookCourse;
@@ -11,16 +12,19 @@ interface CourseCardProps {
 const CourseCard = ({ course }: CourseCardProps) => {
   return (
     <div className="bg-white border rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-1 flex flex-col h-full">
-      <div className="relative h-48 overflow-hidden">
+      <div className="relative">
+        <AspectRatio ratio={16/9}>
+          <img 
+            src={course.cover} 
+            alt={course.title} 
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/10 to-black/60" />
+        </AspectRatio>
         <CourseStatusBadge status={course.status} isNew={course.isNew} />
         <div className="absolute top-3 left-3 bg-bible-navy/80 text-white text-xs font-medium py-1 px-2 rounded-full">
           {course.category}
         </div>
-        <img 
-          src={course.cover} 
-          alt={course.title} 
-          className="w-full h-full object-cover"
-        />
       </div>
       
       <div className="p-5 flex-1 flex flex-col">
