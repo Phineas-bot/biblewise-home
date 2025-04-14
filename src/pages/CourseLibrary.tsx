@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -6,11 +5,10 @@ import CourseGrid from "@/components/CourseGrid";
 import CourseFilters from "@/components/CourseFilters";
 import { BookCourse } from "@/types/course";
 
-// Sample course data
 const coursesData: BookCourse[] = [
   {
     id: 1,
-    title: "The Purpose Driven Life",
+    title: "The Way of Life",
     author: "Rick Warren",
     cover: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=387&q=80",
     status: "unlocked",

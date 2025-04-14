@@ -1,15 +1,13 @@
-
 import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Lock, BookOpen, CheckCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-// Sample course data - in a real app this would come from an API or database
 const courses = [
   {
     id: 1,
-    title: "The Way of Salvation",
+    title: "The Way of Life",
     description: "The foundational course on understanding salvation through Christ and its implications for daily living.",
     status: "available",
     progress: 0,
