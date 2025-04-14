@@ -10,7 +10,7 @@ const coursesData: BookCourse[] = [
     id: 1,
     title: "The Way of Life",
     author: "Prof. Zacharias Tanee Fomum",
-    cover: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=387&q=80",
+    cover: "/lovable-uploads/96e4e601-e7c0-48b9-969c-4cdb885df0ec.png",
     status: "unlocked",
     progress: 45,
     description: "The foundational course on understanding salvation through Christ and its implications for daily living.",
