@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -23,7 +24,7 @@ const coursesData: BookCourse[] = [
     id: 2,
     title: "The Way of Obedience",
     author: "Prof. Zacharias Tanee Fomum",
-    cover: "https://images.unsplash.com/photo-1532012197267-da84d127e765?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=387&q=80",
+    cover: "/lovable-uploads/43a12c01-4b58-4fdc-937b-1a02987b3db3.png",
     status: "locked",
     progress: 0,
     description: "Learn the principles of biblical obedience and how to follow God's commands wholeheartedly.",
