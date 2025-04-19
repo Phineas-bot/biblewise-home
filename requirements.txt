@@ -1,0 +1,21 @@
+# Common Python web development dependencies
+Flask==2.3.2
+Flask-SQLAlchemy==3.0.5
+Flask-Migrate==4.0.4
+Flask-WTF==1.1.1
+Jinja2==3.1.2
+Werkzeug==2.3.6
+
+# Database
+psycopg2-binary==2.9.7
+
+# Testing
+pytest==7.4.0
+pytest-flask==1.2.0
+
+# Linting and Formatting
+black==23.9.1
+flake8==6.1.0
+
+# Other utilities
+python-dotenv==1.0.0
