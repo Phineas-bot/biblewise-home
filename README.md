@@ -1,82 +1,51 @@
-# Welcome to CMFI CBC project
+# CMFI CBC Project
 
-## Project info
+## Project Overview
 
-**URL**: https://lovable.dev/projects/a88fb83f-857e-4b91-97ec-c0cc39ceb02c
+This project is built using modern web technologies to deliver a high-quality user experience. Below are the key technologies used:
 
-## How can I edit this code?
+- **Vite**: Fast build tool for modern web projects.
+- **TypeScript**: Strongly typed JavaScript for better code quality.
+- **React**: Component-based UI library.
+- **shadcn-ui**: Pre-built UI components.
+- **Tailwind CSS**: Utility-first CSS framework.
 
-There are several ways of editing your application.
-.
+## Getting Started
 
-**Use your preferred IDE**
+To set up and run the project locally, follow these steps:
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### Prerequisites
+- Ensure you have **Node.js** and **npm** installed. We recommend using [nvm](https://github.com/nvm-sh/nvm#installing-and-updating) for managing Node.js versions.
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+### Installation
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/Phineas-bot/biblewise-home
+   ```
+2. Navigate to the project directory:
+   ```sh
+   cd biblewise-home
+   ```
+3. Install dependencies:
+   ```sh
+   npm install
+   ```
+4. Start the development server:
+   ```sh
+   npm run dev
+   ```
+   The application will be available at `http://localhost:8080`.
 
-Follow these steps:
+## Deployment
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+Link coming soon!
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+### Do Not:
+- Alter the project structure or workflow.
+- Rename files or folders unless explicitly instructed.
+- Modify configuration files (e.g., `.gitignore`, `package.json`, `README.md`) without approval.
 
-# Step 3: Install the necessary dependencies.
-npm i
+### Do:
+- Pull the latest changes before starting your work.
+- Create a new branch for your changes and submit a pull request (PR) for review.
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
-
-
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with .
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-
-##  to use a custom domain - is that possible?
-
- don't support custom domains (yet). to deploy project under your own domain then we recommend using Netlify. Visit our docs for more details: [Custom domains](https://docs.lovable.dev/tips-tricks/custom-domain/)
-
-
-## ⚠️ Collaboration Guidelines
-
-To ensure smooth collaboration and project consistency, please follow these important guidelines:
-
-🚫 Do Not Alter:
-The workflow or project structure.
-
-The order or hierarchy of files/folders.
-
-Any existing file names unless explicitly instructed.
-
-The main branch workflow, build tools, or configuration files (e.g., .gitignore, package.json, README.md, etc.).
-
-✅ Please:
-Only make changes in your assigned areas.
-
-If you're unsure about any modification, ask first via issues or discussions.
-
-Always pull the latest changes before pushing.
-
-Create a new branch for your work and make a pull request (PR) for review.
-
-📁 Project Structure – Do Not Modify
