@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -17,58 +16,63 @@ const Auth = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
   const { user } = useAuth();
-  
+
   // If user is already logged in, redirect to home page
   if (user) {
     return <Navigate to="/" />;
   }
 
-  const handleAuth = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSignUp = async () => {
     setIsLoading(true);
 
     try {
-      if (isSignUp) {
-        // Sign up flow
-        const { data, error } = await supabase.auth.signUp({
-          email,
-          password,
-          options: {
-            data: {
-              full_name: fullName,
-            },
-          },
-        });
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: { full_name: fullName },
+        },
+      });
 
-        if (error) throw error;
-        
-        toast({
-          title: "Account created successfully!",
-          description: "You can now sign in with your credentials.",
-        });
-        
-        // Switch to login after successful signup
-        setIsSignUp(false);
-      } else {
-        // Sign in flow
-        const { data, error } = await supabase.auth.signInWithPassword({
-          email,
-          password,
-        });
+      if (error) throw error;
 
-        if (error) throw error;
-        
-        toast({
-          title: "Signed in successfully!",
-          description: "Welcome back to Bible Correspondence Course.",
-        });
-        
-        // Redirect to home page after login
-        navigate("/");
-      }
+      toast({
+        title: "Sign-up successful!",
+        description: "Please check your email to confirm your account.",
+      });
+
+      setIsSignUp(false); // Switch to login form
     } catch (error: any) {
       toast({
-        title: "Authentication error",
+        title: "Sign-up error",
+        description: error.message,
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleLogin = async () => {
+    setIsLoading(true);
+
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (error) throw error;
+
+      toast({
+        title: "Login successful!",
+        description: "Welcome back to Bible Correspondence Course.",
+      });
+
+      navigate("/"); // Redirect to homepage
+    } catch (error: any) {
+      toast({
+        title: "Login error",
         description: error.message,
         variant: "destructive",
       });
@@ -93,10 +97,13 @@ const Auth = () => {
         </div>
 
         <div className="bg-white p-8 rounded-lg shadow-md">
-          <form onSubmit={handleAuth} className="space-y-4">
+          <form className="space-y-4">
             {isSignUp && (
               <div>
-                <label htmlFor="fullName" className="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  htmlFor="fullName"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   Full Name
                 </label>
                 <Input
@@ -112,7 +119,10 @@ const Auth = () => {
             )}
 
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
                 Email Address
               </label>
               <Input
@@ -127,7 +137,10 @@ const Auth = () => {
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
                 Password
               </label>
               <Input
@@ -143,7 +156,8 @@ const Auth = () => {
             </div>
 
             <Button
-              type="submit"
+              type="button"
+              onClick={isSignUp ? handleSignUp : handleLogin}
               className="w-full bg-bible-navy hover:bg-bible-blue"
               disabled={isLoading}
             >
