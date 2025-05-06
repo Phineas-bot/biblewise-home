@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -98,11 +97,11 @@
   .bible-gradient {
     @apply bg-gradient-to-br from-bible-blue via-bible-navy to-bible-blue;
   }
-  
+
   .gold-gradient {
     @apply bg-gradient-to-r from-bible-gold/80 to-bible-gold;
   }
-  
+
   .scroll-container::-webkit-scrollbar {
     width: 8px;
     height: 8px;
@@ -118,5 +117,13 @@
 
   .scroll-container::-webkit-scrollbar-thumb:hover {
     @apply bg-bible-navy/60;
+  }
+
+  .button-hover {
+    @apply transition-transform duration-300 ease-in-out;
+  }
+
+  .button-hover:hover {
+    @apply scale-105 bg-bible-blue text-white;
   }
 }
