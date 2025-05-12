@@ -46,7 +46,11 @@ const Toast = React.forwardRef<
   return (
     <ToastPrimitives.Root
       ref={ref}
-      className={cn(toastVariants({ variant }), className)}
+      className={cn(
+        toastVariants({ variant }),
+        "group pointer-events-auto relative flex w-full items-center justify-between space-x-4 overflow-hidden rounded-md border p-6 pr-8 shadow-lg transition-all duration-300 ease-in-out data-[state=open]:animate-fade-in data-[state=closed]:animate-fade-out",
+        className
+      )}
       {...props}
     >
       <div className="transition-transform transform data-[state=open]:translate-y-0 data-[state=closed]:translate-y-4 data-[state=closed]:opacity-0">
