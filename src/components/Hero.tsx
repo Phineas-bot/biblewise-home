@@ -44,7 +44,9 @@ const Hero = () => {
               className="button-hover bg-white text-bible-navy hover:bg-bible-sand hover:text-bible-blue"
             >
               <BookOpen className="mr-2 h-4 w-4" />
-              Explore The Series
+              <a href="/courses" className="animated-underline text-bible-blue font-medium">
+                Explore Courses
+              </a>
             </Button>
           </div>
         </div>
