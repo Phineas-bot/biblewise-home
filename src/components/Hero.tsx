@@ -14,7 +14,7 @@ const Hero = () => {
           <span className="inline-block mb-3 text-white/90 bg-bible-navy/30 px-3 py-1 rounded-full text-sm font-medium backdrop-blur-sm">
             Welcome to your spiritual journey with Prof. Zacharias Tanee Fomum
           </span>
-          <h1 className="mb-5 text-3xl font-bold tracking-tight text-white sm:text-4xl md:text-5xl">
+          <h1 className="text-4xl md:text-6xl font-bold text-white animate-fade-in-up">
             The Christian Way Series
           </h1>
           <p className="mb-6 text-lg text-white/90 md:text-xl max-w-2xl">
