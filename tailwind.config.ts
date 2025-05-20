@@ -130,10 +130,10 @@ export default {
           from: { opacity: "1", transform: "translateY(0)" },
           to: { opacity: "0", transform: "translateY(10px)" },
         },
-        "zoom-in": {
-          from: { transform: "scale(0.95)", opacity: "0" },
-          to: { transform: "scale(1)", opacity: "1" },
-        },
+        // "zoom-in": {
+        //   from: { transform: "scale(0.95)", opacity: "0" },
+        //   to: { transform: "scale(1)", opacity: "1" },
+        // },
         "stagger-fade-in": {
           "0%": { opacity: "0", transform: "translateY(30px)" },
           "60%": { opacity: "0.7", transform: "translateY(-5px)" },
