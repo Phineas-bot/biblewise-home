@@ -41,7 +41,7 @@ const Hero = () => {
             <Button
               size="lg"
               variant="outline"
-              className="button-hover bg-white text-bible-navy hover:bg-bible-sand hover:text-bible-blue"
+              className=" button-hover bg-white text-bible-navy hover:bg-bible-sand hover:text-bible-blue"
             >
               <BookOpen className="mr-2 h-4 w-4" />
               <a href="/courses" className="animated-underline text-bible-blue font-medium">
