@@ -12,7 +12,7 @@ const AuthorSpotlight = () => {
           <div className="lg:w-1/3 flex-shrink-0">
             <div className="relative rounded-lg overflow-hidden shadow-lg aspect-[3/4] max-w-[320px] mx-auto">
               <img 
-                src="/lovable-uploads/2a13a5e8-ce37-4d2c-a5ef-d329f4e6e7ee.png" 
+                src="/uploads/prof_ztf.jpg" 
                 alt="Prof. Zacharias Tanee Fomum" 
                 className="w-full h-full object-cover"
               />
