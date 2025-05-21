@@ -47,7 +47,11 @@ const Navbar = () => {
             to="/"
             className="flex items-center gap-2 font-semibold text-xl text-bible-navy"
           >
-            <BookOpen className="h-6 w-6 text-bible-blue" />
+            <img
+              src="/uploads/bcc_logo.png"
+              alt="BibleWise Logo"
+              className="h-8 w-8 object-contain"
+            />
             <span>Bible Correspondence Course</span>
           </Link>
         </div>
