@@ -8,7 +8,7 @@ const currentCourse = {
   id: 3,
   title: "The Way of Sanctification",
   image:
-    "https://images.unsplash.com/photo-1504052434569-70ad5836ab65?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
+    "https://cmfi-eschool.org/wp-content/uploads/2021/06/bcc-banner.jpg",
   progress: 65,
   currentChapter: "Living in Holiness",
   duration: "Chapter 4 of 7",
