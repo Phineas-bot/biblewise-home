@@ -24,8 +24,7 @@ const courses = [
       "Learn the principles of biblical discipleship and how to follow Christ wholeheartedly.",
     status: "locked",
     progress: 0,
-    image:
-      "public/uploads/bcc_dis.jpeg",
+    image: "/uploads/bcc_dis.jpeg",
     free: false,
   },
   {
@@ -35,8 +34,7 @@ const courses = [
       "Explore the process of spiritual growth and becoming more like Christ in character and conduct.",
     status: "locked",
     progress: 0,
-    image:
-      "public/uploads/bcc_sanct.jpg",
+    image: "/uploads/bcc_sanct.jpg",
     free: false,
   },
   {
