@@ -61,7 +61,7 @@ const Navbar = () => {
           <motion.div whileHover="hover" whileTap="tap">
             <Link
               to="/courses"
-              className="text-bible-navy hover:text-bible-blue font-medium text-sm flex items-center gap-1.5 transition-colors"
+              className="animated-underline text-bible-navy hover:text-bible-blue font-medium text-sm flex items-center gap-1.5 transition-colors"
             >
               <BookOpen className="h-4 w-4" />
               Courses
@@ -70,7 +70,7 @@ const Navbar = () => {
           <motion.div whileHover="hover" whileTap="tap">
             <Link
               to="/quizzes"
-              className="text-bible-navy hover:text-bible-blue font-medium text-sm flex items-center gap-1.5 transition-colors"
+              className="animated-underline text-bible-navy hover:text-bible-blue font-medium text-sm flex items-center gap-1.5 transition-colors"
             >
               <Search className="h-4 w-4" />
               Quizzes
@@ -79,7 +79,7 @@ const Navbar = () => {
           <motion.div whileHover="hover" whileTap="tap">
             <Link
               to="/certificates"
-              className="text-bible-navy hover:text-bible-blue font-medium text-sm flex items-center gap-1.5 transition-colors"
+              className="animated-underline text-bible-navy hover:text-bible-blue font-medium text-sm flex items-center gap-1.5 transition-colors"
             >
               <Award className="h-4 w-4" />
               Certificates
@@ -88,7 +88,7 @@ const Navbar = () => {
           <motion.div whileHover="hover" whileTap="tap">
             <Link
               to="/plans"
-              className="text-bible-navy hover:text-bible-blue font-medium text-sm flex items-center gap-1.5 transition-colors"
+              className="animated-underline text-bible-navy hover:text-bible-blue font-medium text-sm flex items-center gap-1.5 transition-colors"
             >
               <DollarSign className="h-4 w-4" />
               Subscription Plans
