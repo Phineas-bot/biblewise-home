@@ -14,7 +14,7 @@ const courses = [
     status: "available",
     progress: 0,
     image:
-      "https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=387&q=80",
+      "/uploads/bcc_life.jpg",
     free: true,
   },
   {
@@ -39,13 +39,13 @@ const courses = [
   },
   {
     id: 4,
-    title: "The Way of Christian Character",
+    title: "The Way of Obedience",
     description:
       "Develop godly character traits that reflect Christ's nature in your daily interactions.",
     status: "locked",
     progress: 0,
     image:
-      "https://images.unsplash.com/photo-1491841550275-ad7854e35ca6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=387&q=80",
+      "/uploads/bcc_obed.jpeg",
     free: false,
   },
 ];
