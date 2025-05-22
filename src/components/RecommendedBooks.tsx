@@ -32,7 +32,7 @@ const books = [
       "An insightful exploration of biblical fasting and its transformative power in the believer's life.",
     rating: 4.9,
     image:
-      "https://images.unsplash.com/photo-1476275466078-4007374efbbe?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=387&q=80",
+      "uploads/fasting.jpeg",
     category: "Spiritual Disciplines",
   },
   {
@@ -43,7 +43,7 @@ const books = [
       "Discover the principles and practice of effective prayer that brings transformation to individuals and nations.",
     rating: 4.7,
     image:
-      "https://images.unsplash.com/photo-1532012197267-da84d127e765?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=387&q=80",
+      "/uploads/the_art_of_int.jpg",
     category: "Prayer",
   },
   {
@@ -54,7 +54,7 @@ const books = [
       "A guide to developing godly leadership skills through character, vision, and spiritual maturity.",
     rating: 4.6,
     image:
-      "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=387&q=80",
+      "/uploads/spir_lead.jpg",
     category: "Leadership",
   },
   {
@@ -65,7 +65,7 @@ const books = [
       "Biblical principles for handling finances with wisdom and integrity as a disciple of Christ.",
     rating: 4.7,
     image:
-      "https://images.unsplash.com/photo-1491841550275-ad7854e35ca6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=387&q=80",
+      "/uploads/chris_andMoney.jpg",
     category: "Stewardship",
   },
 ];
