@@ -20,8 +20,7 @@ const books = [
     description:
       "A comprehensive guide to becoming and making disciples for Christ through practical biblical principles.",
     rating: 4.8,
-    image:
-      "/uploads/bcc_dis.jpeg",
+    image: "/uploads/bcc_dis.jpeg",
     category: "Discipleship",
   },
   {
@@ -31,8 +30,7 @@ const books = [
     description:
       "An insightful exploration of biblical fasting and its transformative power in the believer's life.",
     rating: 4.9,
-    image:
-      "uploads/fasting.jpeg",
+    image: "uploads/fasting.jpeg",
     category: "Spiritual Disciplines",
   },
   {
@@ -42,8 +40,7 @@ const books = [
     description:
       "Discover the principles and practice of effective prayer that brings transformation to individuals and nations.",
     rating: 4.7,
-    image:
-      "/uploads/the_art_of_int.jpg",
+    image: "/uploads/the_art_of_int.jpg",
     category: "Prayer",
   },
   {
@@ -53,8 +50,7 @@ const books = [
     description:
       "A guide to developing godly leadership skills through character, vision, and spiritual maturity.",
     rating: 4.6,
-    image:
-      "/uploads/spir_lead.jpg",
+    image: "/uploads/spir_lead.jpg",
     category: "Leadership",
   },
   {
@@ -64,8 +60,7 @@ const books = [
     description:
       "Biblical principles for handling finances with wisdom and integrity as a disciple of Christ.",
     rating: 4.7,
-    image:
-      "/uploads/chris_andMoney.jpg",
+    image: "/uploads/chris_andMoney.jpg",
     category: "Stewardship",
   },
 ];
