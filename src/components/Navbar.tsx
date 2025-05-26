@@ -58,123 +58,133 @@ const Navbar = () => {
 
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center space-x-6">
-
-          <Link to="/courses" className="text-bible-navy hover:text-bible-blue font-medium text-sm flex items-center gap-1.5 animated-underline">
+          <Link
+            to="/courses"
+            className="text-bible-navy hover:text-bible-blue font-medium text-sm flex items-center gap-1.5 animated-underline"
+          >
             <BookOpen className="h-4 w-4" />
             Courses
           </Link>
-          <Link to="/quizzes" className="text-bible-navy hover:text-bible-blue font-medium text-sm flex items-center gap-1.5 animated-underline">
+          <Link
+            to="/quizzes"
+            className="text-bible-navy hover:text-bible-blue font-medium text-sm flex items-center gap-1.5 animated-underline"
+          >
             <Search className="h-4 w-4" />
             Quizzes
           </Link>
-          <Link to="/certificates" className="text-bible-navy hover:text-bible-blue font-medium text-sm flex items-center gap-1.5 animated-underline">
+          <Link
+            to="/certificates"
+            className="text-bible-navy hover:text-bible-blue font-medium text-sm flex items-center gap-1.5 animated-underline"
+          >
             <Award className="h-4 w-4" />
             Certificates
           </Link>
-          <Link to="/plans" className="text-bible-navy hover:text-bible-blue font-medium text-sm flex items-center gap-1.5 animated-underline">
+          <Link
+            to="/plans"
+            className="text-bible-navy hover:text-bible-blue font-medium text-sm flex items-center gap-1.5 animated-underline"
+          >
             <DollarSign className="h-4 w-4" />
             Subscription Plans
           </Link>
-
         </div>
 
         <div className="hidden md:flex items-center gap-4">
           {user ? (
             <div className="flex items-center gap-4">
-
-              <Button 
-                variant="ghost" 
-                size="sm" 
+              <Button
+                variant="ghost"
+                size="sm"
                 className="flex items-center gap-2 button-press"
                 onClick={() => navigate("/profile")}
               >
                 <User className="h-4 w-4" />
                 <span>Profile</span>
               </Button>
-              <Button 
-                variant="outline" 
-                size="sm" 
+              <Button
+                variant="outline"
+                size="sm"
                 className="rounded-full text-bible-navy border-bible-navy button-press"
                 onClick={handleSignOut}
-
               >
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="rounded-full text-bible-navy border-bible-navy"
-                  onClick={handleSignOut}
-                >
-                  <LogOut className="h-4 w-4 mr-2" />
-                  Sign Out
-                </Button>
-              </motion.div>
+                <LogOut className="h-4 w-4 mr-2" />
+                Sign Out
+              </Button>
             </div>
           ) : (
             <>
-
-              <Button 
-                variant="outline" 
-                size="sm" 
+              <Button
+                variant="outline"
+                size="sm"
                 className="rounded-full text-bible-navy border-bible-navy button-press"
                 onClick={() => navigate("/auth")}
               >
                 Log In
               </Button>
-              <Button 
+              <Button
                 className="rounded-full bg-bible-navy hover:bg-bible-blue text-white button-press"
                 onClick={() => navigate("/auth")}
-
               >
-                <Button
-                  className="rounded-full bg-bible-navy hover:bg-bible-blue text-white"
-                  onClick={() => navigate("/auth")}
-                >
-                  Sign Up
-                </Button>
-              </motion.div>
+                Sign Up
+              </Button>
             </>
           )}
         </div>
 
         {/* Mobile Menu Button */}
-
-        <Button 
-          variant="ghost" 
-          size="icon" 
-          className="md:hidden button-press" 
+        <Button
+          variant="ghost"
+          size="icon"
+          className="md:hidden button-press"
           onClick={toggleMenu}
           aria-label="Toggle menu"
         >
-          {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          {isMenuOpen ? (
+            <X className="h-6 w-6" />
+          ) : (
+            <Menu className="h-6 w-6" />
+          )}
         </Button>
-
       </nav>
 
       {/* Mobile Navigation */}
       <div
         className={cn(
-
-          "md:hidden absolute top-[61px] left-0 right-0 bg-white border-b z-40 shadow-lg transition-all duration-300 ease-in-out overflow-hidden", // Added z-40 and overflow-hidden
-          isMenuOpen ? "max-h-[calc(100vh-61px)] opacity-100" : "max-h-0 opacity-0 pointer-events-none" // Adjusted max-h for full screen potential
+          "md:hidden absolute top-[61px] left-0 right-0 bg-white border-b z-40 shadow-lg transition-all duration-300 ease-in-out overflow-hidden",
+          isMenuOpen
+            ? "max-h-[calc(100vh-61px)] opacity-100"
+            : "max-h-0 opacity-0 pointer-events-none"
         )}
       >
         <div className="container mx-auto px-4 py-4 flex flex-col space-y-4">
-          <Link to="/courses" onClick={toggleMenu} className="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-gray-100 animated-underline">
+          <Link
+            to="/courses"
+            onClick={toggleMenu}
+            className="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-gray-100 animated-underline"
+          >
             <BookOpen className="h-5 w-5 text-bible-blue" />
             <span>Courses</span>
           </Link>
-          <Link to="/quizzes" onClick={toggleMenu} className="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-gray-100 animated-underline">
+          <Link
+            to="/quizzes"
+            onClick={toggleMenu}
+            className="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-gray-100 animated-underline"
+          >
             <Search className="h-5 w-5 text-bible-blue" />
             <span>Quizzes</span>
           </Link>
-          <Link to="/certificates" onClick={toggleMenu} className="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-gray-100 animated-underline">
+          <Link
+            to="/certificates"
+            onClick={toggleMenu}
+            className="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-gray-100 animated-underline"
+          >
             <Award className="h-5 w-5 text-bible-blue" />
             <span>Certificates</span>
           </Link>
-          <Link to="/plans" onClick={toggleMenu} className="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-gray-100 animated-underline">
-
-
-
+          <Link
+            to="/plans"
+            onClick={toggleMenu}
+            className="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-gray-100 animated-underline"
+          >
             <DollarSign className="h-5 w-5 text-bible-blue" />
             <span>Subscription Plans</span>
           </Link>
@@ -182,22 +192,24 @@ const Navbar = () => {
           <div className="flex flex-col space-y-2">
             {user ? (
               <>
-
-                <Button 
-                  variant="ghost" 
+                <Button
+                  variant="ghost"
                   className="w-full justify-start button-press"
-                  onClick={() => { navigate("/profile"); toggleMenu(); }}
-
+                  onClick={() => {
+                    navigate("/profile");
+                    toggleMenu();
+                  }}
                 >
                   <User className="h-4 w-4 mr-2" />
                   Profile
                 </Button>
-
-                <Button 
-                  variant="outline" 
+                <Button
+                  variant="outline"
                   className="w-full justify-start button-press"
-                  onClick={() => { handleSignOut(); toggleMenu(); }}
-
+                  onClick={() => {
+                    handleSignOut();
+                    toggleMenu();
+                  }}
                 >
                   <LogOut className="h-4 w-4 mr-2" />
                   Sign Out
@@ -205,18 +217,22 @@ const Navbar = () => {
               </>
             ) : (
               <>
-
-                <Button 
-                  variant="outline" 
+                <Button
+                  variant="outline"
                   className="w-full justify-start button-press"
-                  onClick={() => { navigate("/auth"); toggleMenu(); }}
+                  onClick={() => {
+                    navigate("/auth");
+                    toggleMenu();
+                  }}
                 >
                   Log In
                 </Button>
-                <Button 
+                <Button
                   className="w-full justify-start bg-bible-navy hover:bg-bible-blue button-press"
-                  onClick={() => { navigate("/auth"); toggleMenu(); }}
-
+                  onClick={() => {
+                    navigate("/auth");
+                    toggleMenu();
+                  }}
                 >
                   Sign Up
                 </Button>
