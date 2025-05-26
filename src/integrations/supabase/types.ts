@@ -114,6 +114,107 @@ export type Database = {
         }
         Relationships: []
       }
+      user_purchases: { // Added this definition
+        Row: {
+          id: number
+          user_id: string // UUID
+          item_id: string
+          item_type: "course" | "subscription_plan"
+          purchase_date: string // TIMESTAMPTZ
+          price_paid: number // NUMERIC(10,2)
+          currency: string
+          purchase_status: "completed" | "pending" | "failed" | "refunded"
+          payment_gateway_transaction_id: string | null
+          subscription_start_date: string | null // TIMESTAMPTZ
+          subscription_end_date: string | null // TIMESTAMPTZ
+          created_at: string // TIMESTAMPTZ
+          updated_at: string // TIMESTAMPTZ
+        }
+        Insert: {
+          id?: number
+          user_id: string
+          item_id: string
+          item_type: "course" | "subscription_plan"
+          purchase_date?: string
+          price_paid: number
+          currency?: string
+          purchase_status?: "completed" | "pending" | "failed" | "refunded"
+          payment_gateway_transaction_id?: string | null
+          subscription_start_date?: string | null
+          subscription_end_date?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: number
+          user_id?: string
+          item_id?: string
+          item_type?: "course" | "subscription_plan"
+          purchase_date?: string
+          price_paid?: number
+          currency?: string
+          purchase_status?: "completed" | "pending" | "failed" | "refunded"
+          payment_gateway_transaction_id?: string | null
+          subscription_start_date?: string | null
+          subscription_end_date?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_purchases_user_id_fkey"
+            columns: ["user_id"]
+            referencedRelation: "users" // Assuming your users table in auth schema is 'users'
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_quiz_attempts: { // Added this definition
+        Row: {
+          id: number
+          user_id: string // UUID
+          quiz_id: number
+          course_id: number
+          score: number
+          total_possible: number
+          answers: Json // JSONB in DB, maps to QuizAttempt['answers']
+          attempt_date: string // TIMESTAMPTZ
+          created_at: string // TIMESTAMPTZ
+          updated_at: string // TIMESTAMPTZ
+        }
+        Insert: {
+          id?: number
+          user_id: string
+          quiz_id: number
+          course_id: number
+          score: number
+          total_possible: number
+          answers: Json
+          attempt_date?: string
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: number
+          user_id?: string
+          quiz_id?: number
+          course_id?: number
+          score?: number
+          total_possible?: number
+          answers?: Json
+          attempt_date?: string
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_quiz_attempts_user_id_fkey"
+            columns: ["user_id"]
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       Users: {
         Row: {
           created_at: string

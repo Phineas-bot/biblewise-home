@@ -1,42 +1,105 @@
 
 import { useState } from "react";
-import { Check, HelpCircle, ChevronDown, ChevronUp } from "lucide-react";
+import { Check } from "lucide-react"; // Removed unused icons
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Testimonials from "@/components/Testimonials";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { supabase } from "@/integrations/supabase/client"; // Import Supabase client
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/components/ui/use-toast"; // Corrected import path
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 
+interface PurchaseDetails {
+  item_id: string;
+  item_type: "course" | "subscription_plan";
+  price_paid: number;
+  currency: string;
+}
+
 const SubscriptionPlans = () => {
   const [annualBilling, setAnnualBilling] = useState(true);
+  const [isProcessingCheckout, setIsProcessingCheckout] = useState(false); // Loading state
   const { user } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  const handleCheckout = (planType: string) => {
+  const handleCheckout = async (planType: string) => {
     if (!user) {
       toast({
         title: "Sign in required",
-        description: "Please sign in to subscribe to a plan",
+        description: "Please sign in to subscribe to a plan.",
+        variant: "destructive",
       });
       navigate("/auth");
       return;
     }
-    
-    // This would be replaced with actual payment processing
-    toast({
-      title: `${planType} selected`,
-      description: "Payment processing will be implemented here",
-    });
+
+    setIsProcessingCheckout(true);
+    let purchaseDetails: PurchaseDetails;
+
+    if (planType === "Single Course") {
+      purchaseDetails = {
+        item_id: "COURSE_ID_PLACEHOLDER", // As per instructions
+        item_type: "course",
+        price_paid: 9.99,
+        currency: "USD",
+      };
+    } else if (planType === "Full Access") {
+      purchaseDetails = {
+        item_id: annualBilling ? "full_access_annual" : "full_access_monthly",
+        item_type: "subscription_plan",
+        price_paid: annualBilling ? 79.99 : 8.99,
+        currency: "USD",
+      };
+    } else {
+      toast({
+        title: "Error",
+        description: "Invalid plan type selected.",
+        variant: "destructive",
+      });
+      setIsProcessingCheckout(false);
+      return;
+    }
+
+    try {
+      const { data, error } = await supabase.functions.invoke("record-purchase", {
+        body: purchaseDetails,
+      });
+
+      if (error) {
+        console.error("Edge function invocation error:", error);
+        toast({
+          title: "Purchase Failed",
+          description: `Error: ${error.message || "An unexpected error occurred."}`,
+          variant: "destructive",
+        });
+      } else {
+        console.log("Edge function returned:", data);
+        toast({
+          title: "Purchase Successful!",
+          description: "Your access has been updated. Thank you for your purchase.",
+        });
+        // Optionally, navigate to a confirmation page or user dashboard
+        // navigate("/profile"); 
+      }
+    } catch (e: any) {
+      console.error("Unexpected error during checkout:", e);
+      toast({
+        title: "Purchase Failed",
+        description: `An unexpected error occurred: ${e.message}`,
+        variant: "destructive",
+      });
+    } finally {
+      setIsProcessingCheckout(false);
+    }
   };
 
   const toggleBilling = () => {
@@ -131,8 +194,9 @@ const SubscriptionPlans = () => {
                   <Button 
                     className="w-full bg-bible-navy hover:bg-bible-blue"
                     onClick={() => handleCheckout("Single Course")}
+                    disabled={isProcessingCheckout}
                   >
-                    Get Started
+                    {isProcessingCheckout ? "Processing..." : "Get Started"}
                   </Button>
                 </CardFooter>
               </Card>
@@ -191,8 +255,9 @@ const SubscriptionPlans = () => {
                   <Button 
                     className="w-full bg-bible-gold hover:bg-bible-gold/90 text-white"
                     onClick={() => handleCheckout("Full Access")}
+                    disabled={isProcessingCheckout}
                   >
-                    Subscribe Now
+                    {isProcessingCheckout ? "Processing..." : "Subscribe Now"}
                   </Button>
                 </CardFooter>
               </Card>
