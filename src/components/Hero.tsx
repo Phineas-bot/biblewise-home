@@ -3,7 +3,7 @@ import { ArrowRight, BookOpen } from "lucide-react";
 
 const Hero = () => {
   return (
-    <section className="relative overflow-hidden py-16 md:py-24">
+    <section className="relative overflow-hidden py-16 md:py-24 min-h-screen">
       {/* Background with overlay */}
       <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1504052434569-70ad5836ab65?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')] bg-cover bg-center">
         <div className="absolute inset-0 bible-gradient opacity-90"></div>
@@ -41,7 +41,7 @@ const Hero = () => {
             <Button
               size="lg"
               variant="outline"
-              className="button-hover bg-white text-bible-navy hover:bg-bible-sand hover:text-bible-blue"
+              className=" button-hover bg-white text-bible-navy hover:bg-bible-sand hover:text-bible-blue"
             >
               <BookOpen className="mr-2 h-4 w-4" />
               <a href="/courses" className="animated-underline text-bible-blue font-medium">
