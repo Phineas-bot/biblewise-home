@@ -1,65 +1,17 @@
 
 import { BookCourse } from "@/types/course";
 import CourseStatusBadge from "./course/CourseStatusBadge";
-// import CourseActionButton from "./course/CourseActionButton"; // To be replaced
+import CourseActionButton from "./course/CourseActionButton";
 import CourseProgress from "./course/CourseProgress";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
-import { Button } from "@/components/ui/button";
-import { useAuth } from "@/hooks/useAuth";
-import { useNavigate } from "react-router-dom";
 
 interface CourseCardProps {
   course: BookCourse;
 }
 
 const CourseCard = ({ course }: CourseCardProps) => {
-  const { user, userPurchases, isLoadingPurchases } = useAuth();
-  const navigate = useNavigate();
-
-  const hasAccess = (courseId: number): boolean => {
-    if (!userPurchases) return false;
-
-    // Check for an active subscription
-    const hasSubscription = userPurchases.some(
-      (purchase) => purchase.item_type === "subscription_plan" 
-      // Active status is already filtered in AuthContext's fetchUserPurchases
-    );
-    if (hasSubscription) return true;
-
-    // Check for a direct course purchase
-    const hasCoursePurchase = userPurchases.some(
-      (purchase) =>
-        purchase.item_type === "course" &&
-        purchase.item_id === courseId.toString()
-    );
-    return hasCoursePurchase;
-  };
-
-  const handleCTAClick = () => {
-    if (hasAccess(course.id)) {
-      navigate(`/bookreader/${course.id}`);
-    } else {
-      // If user not logged in, redirect to auth. Otherwise, subscription plans.
-      if (!user) {
-        navigate("/auth");
-      } else {
-        navigate("/subscription-plans");
-      }
-    }
-  };
-
-  let ctaText = "Get Access";
-  if (isLoadingPurchases) {
-    ctaText = "Loading...";
-  } else if (user && hasAccess(course.id)) {
-    ctaText = "View Course";
-  } else if (!user) {
-    ctaText = "Login to View"; // Or "Get Access" if preferred even for logged out users
-  }
-
-
   return (
-    <div className="bg-white border rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-1 flex flex-col h-full">
+    <div className="bg-white border rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 hover-scale flex flex-col h-full">
       <div className="relative">
         <AspectRatio ratio={16/9}>
           <img 
@@ -87,14 +39,7 @@ const CourseCard = ({ course }: CourseCardProps) => {
         
         <p className="text-sm text-gray-700 mb-auto line-clamp-2">{course.description}</p>
         
-        {/* <CourseActionButton status={course.status} courseId={course.id} /> */}
-        <Button 
-          onClick={handleCTAClick} 
-          disabled={isLoadingPurchases}
-          className="mt-4 w-full bg-bible-blue hover:bg-bible-blue/90 text-white"
-        >
-          {ctaText}
-        </Button>
+        <CourseActionButton status={course.status} courseId={course.id} />
       </div>
     </div>
   );

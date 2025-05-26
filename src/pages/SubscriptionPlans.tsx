@@ -1,37 +1,32 @@
 
-import { useState } from "react";
-import { Check } from "lucide-react"; // Removed unused icons
+import { useState, useEffect } from "react"; // Added useEffect
+import { Check, HelpCircle, ChevronDown, ChevronUp, Loader2 } from "lucide-react"; // Added Loader2
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Testimonials from "@/components/Testimonials";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { supabase } from "@/integrations/supabase/client"; // Import Supabase client
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { useToast } from "@/components/ui/use-toast"; // Corrected import path
+import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
-
-interface PurchaseDetails {
-  item_id: string;
-  item_type: "course" | "subscription_plan";
-  price_paid: number;
-  currency: string;
-}
+import { supabase } from "@/integrations/supabase/client"; // Added Supabase client
+import { useStripe } from "@stripe/react-stripe-js"; // Added Stripe hooks
 
 const SubscriptionPlans = () => {
   const [annualBilling, setAnnualBilling] = useState(true);
-  const [isProcessingCheckout, setIsProcessingCheckout] = useState(false); // Loading state
+  const [isLoading, setIsLoading] = useState(false); // Added loading state
   const { user } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
+  const stripe = useStripe();
 
-  const handleCheckout = async (planType: string) => {
+  const handleCheckout = async (planType: "single" | "subscription", courseId?: number) => {
     if (!user) {
       toast({
         title: "Sign in required",
@@ -42,63 +37,85 @@ const SubscriptionPlans = () => {
       return;
     }
 
-    setIsProcessingCheckout(true);
-    let purchaseDetails: PurchaseDetails;
-
-    if (planType === "Single Course") {
-      purchaseDetails = {
-        item_id: "COURSE_ID_PLACEHOLDER", // As per instructions
-        item_type: "course",
-        price_paid: 9.99,
-        currency: "USD",
-      };
-    } else if (planType === "Full Access") {
-      purchaseDetails = {
-        item_id: annualBilling ? "full_access_annual" : "full_access_monthly",
-        item_type: "subscription_plan",
-        price_paid: annualBilling ? 79.99 : 8.99,
-        currency: "USD",
-      };
-    } else {
+    if (!stripe) {
       toast({
-        title: "Error",
-        description: "Invalid plan type selected.",
+        title: "Stripe not loaded",
+        description: "Stripe.js has not loaded yet. Please try again in a moment.",
         variant: "destructive",
       });
-      setIsProcessingCheckout(false);
       return;
     }
 
+    setIsLoading(true);
+
+    let planDetails: any = {
+      userId: user.id,
+      userEmail: user.email,
+    };
+
+    if (planType === "single") {
+      planDetails = {
+        ...planDetails,
+        planId: "course_single", // Placeholder, will be replaced by actual product/price IDs
+        amount: 999, // $9.99 in cents
+        currency: "usd",
+        mode: "payment",
+        metadata: { courseId: courseId || "general_course_purchase" }, // Example metadata
+      };
+      toast({ title: "Processing Single Course Purchase..." });
+    } else if (planType === "subscription") {
+      planDetails = {
+        ...planDetails,
+        planId: annualBilling ? "sub_full_annual" : "sub_full_monthly", // Placeholder
+        amount: annualBilling ? 7999 : 899, // $79.99 or $8.99 in cents
+        currency: "usd",
+        mode: "subscription",
+        interval: annualBilling ? "year" : "month",
+      };
+      toast({ title: "Processing Full Access Subscription..." });
+    } else {
+      toast({ title: "Invalid plan type", variant: "destructive" });
+      setIsLoading(false);
+      return;
+    }
+    
     try {
-      const { data, error } = await supabase.functions.invoke("record-purchase", {
-        body: purchaseDetails,
+      const { data, error: functionsError } = await supabase.functions.invoke('create-checkout-session', {
+        body: planDetails,
       });
 
-      if (error) {
-        console.error("Edge function invocation error:", error);
+      if (functionsError) {
+        throw functionsError;
+      }
+
+      const { sessionId, error: checkoutError } = data;
+
+      if (checkoutError) {
+        throw new Error(checkoutError.message || "Error creating checkout session.");
+      }
+      
+      if (!sessionId) {
+        throw new Error("Checkout session ID not found in response.");
+      }
+
+      const { error: stripeError } = await stripe.redirectToCheckout({ sessionId });
+
+      if (stripeError) {
         toast({
-          title: "Purchase Failed",
-          description: `Error: ${error.message || "An unexpected error occurred."}`,
+          title: "Stripe Error",
+          description: stripeError.message || "Failed to redirect to Stripe.",
           variant: "destructive",
         });
-      } else {
-        console.log("Edge function returned:", data);
-        toast({
-          title: "Purchase Successful!",
-          description: "Your access has been updated. Thank you for your purchase.",
-        });
-        // Optionally, navigate to a confirmation page or user dashboard
-        // navigate("/profile"); 
       }
-    } catch (e: any) {
-      console.error("Unexpected error during checkout:", e);
+    } catch (error: any) {
+      console.error("Checkout error:", error);
       toast({
-        title: "Purchase Failed",
-        description: `An unexpected error occurred: ${e.message}`,
+        title: "Checkout Error",
+        description: error.message || "An unexpected error occurred during checkout.",
         variant: "destructive",
       });
     } finally {
-      setIsProcessingCheckout(false);
+      setIsLoading(false);
     }
   };
 
@@ -192,11 +209,12 @@ const SubscriptionPlans = () => {
                 </CardContent>
                 <CardFooter>
                   <Button 
-                    className="w-full bg-bible-navy hover:bg-bible-blue"
-                    onClick={() => handleCheckout("Single Course")}
-                    disabled={isProcessingCheckout}
+                    className="w-full bg-bible-navy hover:bg-bible-blue flex items-center justify-center"
+                    onClick={() => handleCheckout("single")}
+                    disabled={isLoading}
                   >
-                    {isProcessingCheckout ? "Processing..." : "Get Started"}
+                    {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+                    Get Started
                   </Button>
                 </CardFooter>
               </Card>
@@ -253,11 +271,12 @@ const SubscriptionPlans = () => {
                 </CardContent>
                 <CardFooter>
                   <Button 
-                    className="w-full bg-bible-gold hover:bg-bible-gold/90 text-white"
-                    onClick={() => handleCheckout("Full Access")}
-                    disabled={isProcessingCheckout}
+                    className="w-full bg-bible-gold hover:bg-bible-gold/90 text-white flex items-center justify-center"
+                    onClick={() => handleCheckout("subscription")}
+                    disabled={isLoading}
                   >
-                    {isProcessingCheckout ? "Processing..." : "Subscribe Now"}
+                    {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+                    Subscribe Now
                   </Button>
                 </CardFooter>
               </Card>

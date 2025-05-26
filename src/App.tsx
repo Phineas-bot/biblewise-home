@@ -14,6 +14,7 @@ import Auth from "./pages/Auth";
 import Profile from "./pages/Profile";
 import SubscriptionPlans from "./pages/SubscriptionPlans";
 import Certificates from "./pages/Certificates";
+import PageWrapper from "./components/PageWrapper"; // Import PageWrapper
 
 const queryClient = new QueryClient();
 
@@ -25,16 +26,16 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/courses" element={<CourseLibrary />} />
-            <Route path="/reader/:id" element={<BookReader />} />
-            <Route path="/quiz/:id" element={<QuizPage />} />
-            <Route path="/auth" element={<Auth />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/plans" element={<SubscriptionPlans />} />
-            <Route path="/certificates" element={<Certificates />} />
+            <Route path="/" element={<PageWrapper><Index /></PageWrapper>} />
+            <Route path="/courses" element={<PageWrapper><CourseLibrary /></PageWrapper>} />
+            <Route path="/reader/:id" element={<PageWrapper><BookReader /></PageWrapper>} />
+            <Route path="/quiz/:id" element={<PageWrapper><QuizPage /></PageWrapper>} />
+            <Route path="/auth" element={<PageWrapper><Auth /></PageWrapper>} />
+            <Route path="/profile" element={<PageWrapper><Profile /></PageWrapper>} />
+            <Route path="/plans" element={<PageWrapper><SubscriptionPlans /></PageWrapper>} />
+            <Route path="/certificates" element={<PageWrapper><Certificates /></PageWrapper>} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
+            <Route path="*" element={<PageWrapper><NotFound /></PageWrapper>} />
           </Routes>
         </BrowserRouter>
       </AuthProvider>
