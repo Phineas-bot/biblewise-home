@@ -29,10 +29,19 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   useEffect(() => {
     // Get session from local storage
     const setSessionFromLocalStorage = async () => {
-      const { data } = await supabase.auth.getSession();
-      setSession(data.session);
-      setUser(data.session?.user ?? null);
-      setIsLoading(false);
+      try {
+        const { data, error } = await supabase.auth.getSession();
+        if (error) {
+          console.error("Error getting session:", error.message);
+          // Potentially set user-facing error state here if needed
+        }
+        // Set session and user, but let onAuthStateChange handle initial isLoading
+        setSession(data.session);
+        setUser(data.session?.user ?? null);
+      } catch (error: any) {
+        console.error("Error in setSessionFromLocalStorage:", error.message);
+        // setIsLoading(false) here could be an option if we don't rely on onAuthStateChange for initial load
+      }
     };
 
     setSessionFromLocalStorage();
@@ -40,10 +49,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     // Listen for auth changes
     const { data: authListener } = supabase.auth.onAuthStateChange(
       async (event, session) => {
-        console.log(`Auth event: ${event}`);
+        // console.log(`Auth event: ${event}`); // Removed console.log
         setSession(session);
         setUser(session?.user ?? null);
-        setIsLoading(false);
+        setIsLoading(false); // This will be called on initial load and subsequent changes
       }
     );
 
@@ -54,8 +63,17 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const signOut = async () => {
     setIsLoading(true);
-    await supabase.auth.signOut();
-    setIsLoading(false);
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) {
+        console.error("Error signing out:", error.message);
+        // Potentially set user-facing error state here
+      }
+    } catch (error: any) {
+      console.error("Error in signOut:", error.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const value = {

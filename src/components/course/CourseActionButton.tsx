@@ -13,14 +13,14 @@ const CourseActionButton = ({ status, courseId }: CourseActionButtonProps) => {
   switch (status) {
     case "locked":
       return (
-        <Button className="w-full bg-bible-navy hover:bg-bible-blue mt-4">
+        <Button className="w-full bg-bible-navy hover:bg-bible-blue mt-4 button-press">
           Purchase
         </Button>
       );
     case "completed":
       return (
         <Button 
-          className="w-full bg-green-600 hover:bg-green-700 mt-4"
+          className="w-full bg-green-600 hover:bg-green-700 mt-4 button-press"
           asChild
         >
           <Link to={`/reader/${courseId}`}>
@@ -32,7 +32,7 @@ const CourseActionButton = ({ status, courseId }: CourseActionButtonProps) => {
     case "in-progress":
       return (
         <Button 
-          className="w-full bg-bible-blue hover:bg-bible-navy mt-4"
+          className="w-full bg-bible-blue hover:bg-bible-navy mt-4 button-press"
           asChild
         >
           <Link to={`/reader/${courseId}`}>
@@ -44,7 +44,7 @@ const CourseActionButton = ({ status, courseId }: CourseActionButtonProps) => {
     default:
       return (
         <Button 
-          className="w-full bg-bible-navy hover:bg-bible-blue mt-4"
+          className="w-full bg-bible-navy hover:bg-bible-blue mt-4 button-press"
           asChild
         >
           <Link to={`/reader/${courseId}`}>

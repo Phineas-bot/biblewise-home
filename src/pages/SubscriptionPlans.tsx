@@ -1,6 +1,6 @@
 
-import { useState } from "react";
-import { Check, HelpCircle, ChevronDown, ChevronUp } from "lucide-react";
+import { useState, useEffect } from "react"; // Added useEffect
+import { Check, HelpCircle, ChevronDown, ChevronUp, Loader2 } from "lucide-react"; // Added Loader2
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Testimonials from "@/components/Testimonials";
@@ -15,28 +15,108 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
+import { supabase } from "@/integrations/supabase/client"; // Added Supabase client
+import { useStripe } from "@stripe/react-stripe-js"; // Added Stripe hooks
 
 const SubscriptionPlans = () => {
   const [annualBilling, setAnnualBilling] = useState(true);
+  const [isLoading, setIsLoading] = useState(false); // Added loading state
   const { user } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
+  const stripe = useStripe();
 
-  const handleCheckout = (planType: string) => {
+  const handleCheckout = async (planType: "single" | "subscription", courseId?: number) => {
     if (!user) {
       toast({
         title: "Sign in required",
-        description: "Please sign in to subscribe to a plan",
+        description: "Please sign in to subscribe to a plan.",
+        variant: "destructive",
       });
       navigate("/auth");
       return;
     }
+
+    if (!stripe) {
+      toast({
+        title: "Stripe not loaded",
+        description: "Stripe.js has not loaded yet. Please try again in a moment.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsLoading(true);
+
+    let planDetails: any = {
+      userId: user.id,
+      userEmail: user.email,
+    };
+
+    if (planType === "single") {
+      planDetails = {
+        ...planDetails,
+        planId: "course_single", // Placeholder, will be replaced by actual product/price IDs
+        amount: 999, // $9.99 in cents
+        currency: "usd",
+        mode: "payment",
+        metadata: { courseId: courseId || "general_course_purchase" }, // Example metadata
+      };
+      toast({ title: "Processing Single Course Purchase..." });
+    } else if (planType === "subscription") {
+      planDetails = {
+        ...planDetails,
+        planId: annualBilling ? "sub_full_annual" : "sub_full_monthly", // Placeholder
+        amount: annualBilling ? 7999 : 899, // $79.99 or $8.99 in cents
+        currency: "usd",
+        mode: "subscription",
+        interval: annualBilling ? "year" : "month",
+      };
+      toast({ title: "Processing Full Access Subscription..." });
+    } else {
+      toast({ title: "Invalid plan type", variant: "destructive" });
+      setIsLoading(false);
+      return;
+    }
     
-    // This would be replaced with actual payment processing
-    toast({
-      title: `${planType} selected`,
-      description: "Payment processing will be implemented here",
-    });
+    try {
+      const { data, error: functionsError } = await supabase.functions.invoke('create-checkout-session', {
+        body: planDetails,
+      });
+
+      if (functionsError) {
+        throw functionsError;
+      }
+
+      const { sessionId, error: checkoutError } = data;
+
+      if (checkoutError) {
+        throw new Error(checkoutError.message || "Error creating checkout session.");
+      }
+      
+      if (!sessionId) {
+        throw new Error("Checkout session ID not found in response.");
+      }
+
+      const { error: stripeError } = await stripe.redirectToCheckout({ sessionId });
+
+      if (stripeError) {
+        toast({
+          title: "Stripe Error",
+          description: stripeError.message || "Failed to redirect to Stripe.",
+          variant: "destructive",
+        });
+      }
+    } catch (error: any) {
+      console.error("Checkout error:", error);
+      toast({
+        title: "Checkout Error",
+        description: error.message || "An unexpected error occurred during checkout.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const toggleBilling = () => {
@@ -129,9 +209,11 @@ const SubscriptionPlans = () => {
                 </CardContent>
                 <CardFooter>
                   <Button 
-                    className="w-full bg-bible-navy hover:bg-bible-blue"
-                    onClick={() => handleCheckout("Single Course")}
+                    className="w-full bg-bible-navy hover:bg-bible-blue flex items-center justify-center"
+                    onClick={() => handleCheckout("single")}
+                    disabled={isLoading}
                   >
+                    {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
                     Get Started
                   </Button>
                 </CardFooter>
@@ -189,9 +271,11 @@ const SubscriptionPlans = () => {
                 </CardContent>
                 <CardFooter>
                   <Button 
-                    className="w-full bg-bible-gold hover:bg-bible-gold/90 text-white"
-                    onClick={() => handleCheckout("Full Access")}
+                    className="w-full bg-bible-gold hover:bg-bible-gold/90 text-white flex items-center justify-center"
+                    onClick={() => handleCheckout("subscription")}
+                    disabled={isLoading}
                   >
+                    {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
                     Subscribe Now
                   </Button>
                 </CardFooter>

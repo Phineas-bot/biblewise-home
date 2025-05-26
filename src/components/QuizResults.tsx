@@ -114,12 +114,13 @@ const QuizResults = ({ quiz, attempt, onRetake }: QuizResultsProps) => {
                             <p className="text-sm mt-1">
                               <span className="text-muted-foreground">Correct answer: </span>
                               {Array.isArray(question.correctAnswer) 
-                                ? question.correctAnswer[0]
+                                ? question.correctAnswer.join(" or ")
                                 : question.correctAnswer}
                             </p>
                           )}
                           
-                          {!isCorrect && (
+                          {/* UI/UX Change: Always show explanation if available */}
+                          {question.explanation && (
                             <p className="text-sm mt-2 text-muted-foreground">{question.explanation}</p>
                           )}
                         </div>

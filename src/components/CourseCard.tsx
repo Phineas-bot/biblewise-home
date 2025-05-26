@@ -11,7 +11,7 @@ interface CourseCardProps {
 
 const CourseCard = ({ course }: CourseCardProps) => {
   return (
-    <div className="bg-white border rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-1 flex flex-col h-full">
+    <div className="bg-white border rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 hover-scale flex flex-col h-full">
       <div className="relative">
         <AspectRatio ratio={16/9}>
           <img 

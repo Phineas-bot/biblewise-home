@@ -32,7 +32,8 @@ const QuizPage = () => {
       toast({
         title: "Quiz not found",
         description: "The requested quiz could not be found.",
-        variant: "destructive"
+        variant: "destructive",
+        duration: 5000 
       });
       navigate('/courses');
     }
@@ -88,8 +89,13 @@ const QuizPage = () => {
   };
 
   const submitQuiz = () => {
+    setIsCompleted(true); // Ensure UI updates immediately
     if (!quiz) return;
     
+    // Ensure answers are up-to-date, especially for the current question if it's a short answer
+    // This might involve calling a method to finalize the current question's answer if not already handled
+    // For now, assume `answers` state is sufficiently up-to-date due to previous fixes.
+
     const totalPoints = quiz.questions.reduce((sum, q) => sum + q.points, 0);
     const earnedPoints = answers.reduce((sum, a) => {
       const question = quiz.questions.find(q => q.id === a.questionId);
@@ -109,7 +115,7 @@ const QuizPage = () => {
     };
     
     setQuizAttempt(attempt);
-    setIsCompleted(true);
+    // setIsCompleted(true); // Moved to the top
   };
 
   const retakeQuiz = () => {

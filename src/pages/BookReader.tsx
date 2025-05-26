@@ -1,143 +1,223 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { BookCourse, BookChapter, BookProgress } from '@/types/course';
+import { 
+  BookCourseInfo, 
+  BookChapterFE, 
+  BookSectionFE, 
+  BookProgress, 
+  DbCourse, 
+  DbChapter, 
+  DbSection 
+} from '@/types/course'; // Updated types
 import { Button } from '@/components/ui/button';
-import { Progress } from '@/components/ui/progress';
+import { Progress as ShadProgress } from '@/components/ui/progress'; // Renamed to avoid conflict
 import { Separator } from '@/components/ui/separator';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Slider } from '@/components/ui/slider';
 import TableOfContents from '@/components/TableOfContents';
 import ReadingPane from '@/components/ReadingPane';
 import ReadingControls from '@/components/ReadingControls';
-import { Sun, Moon, ArrowLeft, Bookmark } from 'lucide-react';
+import { Sun, Moon, ArrowLeft, Bookmark, Loader2 } from 'lucide-react'; // Added Loader2
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
+import { useAuth } from '@/hooks/useAuth'; // Added useAuth
+import { supabase } from '@/integrations/supabase/client'; // Added Supabase client
 
-// Sample chapters data (in a real app, this would come from an API)
-const sampleChapters: BookChapter[] = [
-  {
-    id: 1,
-    title: "Introduction",
-    sections: [
-      {
-        id: 1,
-        title: "About This Book",
-        content: `<p>Welcome to "The Purpose Driven Life" by Rick Warren. This spiritual journey will take you through 40 days of purpose, helping you discover God's purpose for your life.</p>
-        <p>In this book, we'll explore the answers to life's most important question: What on earth am I here for? The journey is designed to be taken one day at a time, with each chapter representing a day in your 40-day spiritual journey.</p>
-        <p>As you read through this book, I encourage you to take notes, reflect on the questions at the end of each chapter, and allow God to speak to you through His Word.</p>`
-      },
-      {
-        id: 2,
-        title: "How to Use This Book",
-        content: `<p>This book is designed to be read as a 40-day personal spiritual journey. Here are some suggestions to help you get the most out of this experience:</p>
-        <ul>
-          <li>Read only one chapter a day, taking time to reflect on its message.</li>
-          <li>Highlight key passages that speak to you.</li>
-          <li>Write your thoughts in the margins or in a separate journal.</li>
-          <li>Discuss what you're learning with a friend or small group.</li>
-          <li>Apply what you learn to your daily life.</li>
-        </ul>
-        <p>Remember, this is not just a book to be read, but a journey to be experienced. Let's begin the adventure of discovering God's purpose for your life.</p>`
-      }
-    ]
-  },
-  {
-    id: 2,
-    title: "Day 1: It All Starts with God",
-    sections: [
-      {
-        id: 3,
-        title: "A Journey Begins",
-        content: `<p>For everything, absolutely everything, above and below, visible and invisible, everything got started in him and finds its purpose in him. - Colossians 1:16 (MSG)</p>
-        <p>It's not about you.</p>
-        <p>The purpose of your life is far greater than your own personal fulfillment, your peace of mind, or even your happiness. It's far greater than your family, your career, or even your wildest dreams and ambitions. If you want to know why you were placed on this planet, you must begin with God. You were born by his purpose and for his purpose.</p>`
-      },
-      {
-        id: 4,
-        title: "Finding Your Purpose",
-        content: `<p>The search for the purpose of life has puzzled people for thousands of years. That's because we typically begin at the wrong starting point—ourselves. We ask self-centered questions like: What do I want to be? What should I do with my life? What are my goals, my ambitions, my dreams for my future?</p>
-        <p>But focusing on ourselves will never reveal our life's purpose. The Bible says, "It is God who directs the lives of his creatures; everyone's life is in his power."</p>
-        <p>Contrary to what many popular books, movies, and seminars tell you, you won't discover your life's meaning by looking within yourself. You've probably tried that already. You didn't create yourself, so there is no way you can tell yourself what you were created for!</p>`
-      }
-    ]
-  },
-  {
-    id: 3,
-    title: "Day 2: You Are Not an Accident",
-    sections: [
-      {
-        id: 5,
-        title: "Planned for God's Pleasure",
-        content: `<p>I am your Creator. You were in my care even before you were born. - Isaiah 44:2a (CEV)</p>
-        <p>You are not an accident.</p>
-        <p>Your birth was no mistake or mishap, and your life is no fluke of nature. Your parents may not have planned you, but God did. He was not at all surprised by your birth. In fact, he expected it.</p>
-        <p>Long before you were conceived by your parents, you were conceived in the mind of God. He thought of you first. It is not fate, nor chance, nor luck, nor coincidence that you are breathing at this very moment. You are alive because God wanted to create you!</p>`
-      },
-      {
-        id: 6,
-        title: "God's Purpose for Creating You",
-        content: `<p>The Bible says, "The LORD will fulfill his purpose for me." (Psalm 138:8)</p>
-        <p>God prescribed every single detail of your body. He deliberately chose your race, the color of your skin, your hair, and every other feature. He custom-made your body just the way he wanted it. He also determined the natural talents you would possess and the uniqueness of your personality.</p>
-        <p>Because God made you for a reason, he also decided when you would be born and how long you would live. He planned the days of your life in advance, choosing the exact time of your birth and death. The Bible says, "You saw me before I was born and scheduled each day of my life before I began to breathe. Every day was recorded in your Book!"</p>`
-      }
-    ]
-  }
-];
 
 const BookReader = () => {
-  const { id } = useParams<{ id: string }>();
+  const { courseId: courseIdParam } = useParams<{ courseId: string }>();
   const navigate = useNavigate();
   const { toast } = useToast();
-  const courseId = parseInt(id || '1');
-  
-  // Sample course data
-  const coursesData: BookCourse[] = [
-    {
-      id: 1,
-      title: "The Purpose Driven Life",
-      author: "Rick Warren",
-      cover: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=387&q=80",
-      status: "in-progress",
-      progress: 45,
-      description: "Discover the answer to life's most fundamental question: What on earth am I here for?",
-      category: "Christian Living",
-      isNew: true,
-      isPopular: true,
-      lessons: 12,
-    }
-  ];
+  const { user, isLoading: authLoading } = useAuth(); // Get user from useAuth
 
   const [darkMode, setDarkMode] = useState<boolean>(false);
   const [fontSize, setFontSize] = useState<number>(100);
-  const [course, setCourse] = useState<BookCourse | null>(null);
-  const [chapters, setChapters] = useState<BookChapter[]>(sampleChapters);
-  const [progress, setProgress] = useState<BookProgress>({
-    currentChapter: 1,
-    currentSection: 1,
-    readPages: 12,
-    totalPages: 40,
+  
+  const [courseInfo, setCourseInfo] = useState<BookCourseInfo | null>(null);
+  const [chaptersFE, setChaptersFE] = useState<BookChapterFE[]>([]);
+  const [bookProgressFE, setBookProgressFE] = useState<BookProgress>({
+    currentChapterId: null,
+    currentSectionId: null,
+    completedSectionIds: new Set(),
+    totalPages: 0,
     bookmarks: [],
     highlights: []
   });
 
-  useEffect(() => {
-    // Find course data
-    const foundCourse = coursesData.find(c => c.id === courseId);
-    if (foundCourse) {
-      setCourse(foundCourse);
-    } else {
-      navigate('/courses');
-    }
-  }, [courseId, navigate]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleChapterChange = (chapterId: number, sectionId: number) => {
-    setProgress(prev => ({
+  // Fetch data and check access
+  useEffect(() => {
+    if (authLoading) return; // Wait for user auth status to be determined
+
+    if (!user) {
+      toast({ title: "Authentication Required", description: "Please sign in to access courses.", variant: "destructive" });
+      navigate('/auth');
+      return;
+    }
+
+    if (!courseIdParam) {
+      setError("Course ID is missing.");
+      setIsLoading(false);
+      return;
+    }
+    const currentCourseId = parseInt(courseIdParam);
+    if (isNaN(currentCourseId)) {
+        setError("Invalid Course ID format.");
+        setIsLoading(false);
+        navigate('/courses');
+        return;
+    }
+
+
+    const fetchData = async () => {
+      setIsLoading(true);
+      setError(null);
+
+      try {
+        // 1. Fetch Course Details
+        const { data: courseData, error: courseError } = await supabase
+          .from('courses')
+          .select('*')
+          .eq('id', currentCourseId)
+          .single();
+
+        if (courseError || !courseData) {
+          throw new Error(courseError?.message || "Course not found.");
+        }
+        
+        const dbCourse = courseData as DbCourse;
+        setCourseInfo({
+            id: dbCourse.id,
+            title: dbCourse.title,
+            author: dbCourse.author,
+            cover_image_url: dbCourse.cover_image_url,
+            description: dbCourse.description,
+        });
+
+
+        // 2. Access Control Check
+        let hasAccess = false;
+        // Check for single purchase
+        const { data: purchaseData, error: purchaseError } = await supabase
+          .from('purchases')
+          .select('id')
+          .eq('user_id', user.id)
+          .eq('course_id', currentCourseId)
+          .eq('status', 'succeeded') // Assuming 'succeeded' is the status for completed purchases
+          .maybeSingle();
+
+        if (purchaseError) console.warn("Error checking purchases:", purchaseError.message);
+        if (purchaseData) hasAccess = true;
+
+        // Check for active subscription (if not already accessed by single purchase)
+        if (!hasAccess) {
+          const { data: subscriptionData, error: subscriptionError } = await supabase
+            .from('subscriptions')
+            .select('status, product_id, products(part_of_subscription_plan_id)') // Assuming products table has part_of_subscription_plan_id
+                                                                    // and subscriptions has product_id linking to it.
+                                                                    // Or, if subscription gives general access, check plan directly.
+            .eq('user_id', user.id)
+            .in('status', ['active', 'trialing']) // Active or trialing subscriptions
+            // .eq('products.part_of_subscription_plan_id', courseData.part_of_subscription_plan_id) // More specific check
+            .limit(1); // We only need one active subscription that grants access
+          
+          if (subscriptionError) console.warn("Error checking subscriptions:", subscriptionError.message);
+
+          if (subscriptionData && subscriptionData.length > 0) {
+            // Further check if this subscription plan grants access to this course
+            // For simplicity, assume any active subscription grants access if course is part of *any* sub plan
+            if (dbCourse.part_of_subscription_plan_id) {
+                 // This logic might need to be more sophisticated, e.g., matching plan IDs.
+                 // For now, if the course can be part of a subscription and user has an active one, grant access.
+                hasAccess = true;
+            }
+          }
+        }
+        
+        // If course is free (assuming a column like `is_free` or `stripe_price_id_single_purchase` is null and not part of sub)
+        // This logic needs to be aligned with how free courses are defined in your DB.
+        // E.g., if `stripe_price_id_single_purchase` is null AND `part_of_subscription_plan_id` is null.
+        if (!dbCourse.stripe_price_id_single_purchase && !dbCourse.part_of_subscription_plan_id) {
+            hasAccess = true; // Implicitly free course
+        }
+
+
+        if (!hasAccess) {
+          toast({ title: "Access Denied", description: "You do not have access to this course. Please purchase it or subscribe.", variant: "destructive" });
+          navigate('/courses'); // or /subscription-plans
+          return;
+        }
+
+        // 3. If Access Granted, Fetch Chapters and Sections
+        const { data: chaptersData, error: chaptersError } = await supabase
+          .from('chapters')
+          .select('*, sections (*, order)') // Nested fetch for sections, order sections
+          .eq('course_id', currentCourseId)
+          .order('order', { ascending: true }) // Order chapters
+          .order('order', { foreignTable: 'sections', ascending: true }); // Order sections within chapters
+
+
+        if (chaptersError) {
+          throw new Error(chaptersError.message || "Failed to fetch chapters and sections.");
+        }
+
+        const fetchedChapters: BookChapterFE[] = (chaptersData as DbChapter[]).map(ch => ({
+          id: ch.id,
+          title: ch.title,
+          order: ch.order,
+          course_id: ch.course_id,
+          sections: (ch.sections as DbSection[]).map(sec => ({ // Type assertion
+            id: sec.id,
+            title: sec.title,
+            content_html: sec.content_html,
+            order: sec.order,
+            chapter_id: sec.chapter_id // if needed
+          })).sort((a,b) => a.order - b.order) // Ensure sections are sorted client-side too due to Supabase limitations on nested order
+        })).sort((a,b) => a.order - b.order); // Ensure chapters are sorted
+
+        setChaptersFE(fetchedChapters);
+
+        if (fetchedChapters.length > 0 && fetchedChapters[0].sections.length > 0) {
+          const firstChapterId = fetchedChapters[0].id;
+          const firstSectionId = fetchedChapters[0].sections[0].id;
+          const totalSections = fetchedChapters.reduce((sum, chap) => sum + chap.sections.length, 0);
+          
+          setBookProgressFE(prev => ({
+            ...prev,
+            currentChapterId: firstChapterId,
+            currentSectionId: firstSectionId,
+            totalPages: totalSections,
+            // Load saved progress here if implementing persistence
+          }));
+        } else {
+            // Handle case with no chapters or sections
+            setBookProgressFE(prev => ({ ...prev, totalPages: 0, currentChapterId: null, currentSectionId: null }));
+        }
+
+      } catch (e: any) {
+        console.error("Error in BookReader fetchData:", e);
+        setError(e.message || "An unexpected error occurred.");
+        toast({ title: "Error", description: e.message || "Could not load book data.", variant: "destructive" });
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [courseIdParam, user, authLoading, navigate, toast]);
+
+
+  const handleChapterSectionChange = useCallback((chapterId: number | string, sectionId: number | string) => {
+    setBookProgressFE(prev => ({
       ...prev,
-      currentChapter: chapterId,
-      currentSection: sectionId
+      currentChapterId: chapterId,
+      currentSectionId: sectionId,
+      completedSectionIds: new Set(prev.completedSectionIds).add(sectionId) // Mark current section as read
     }));
-  };
+  }, []);
 
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
@@ -148,68 +228,119 @@ const BookReader = () => {
   };
 
   const addBookmark = () => {
-    const bookmarkId = progress.currentSection;
-    if (!progress.bookmarks.includes(bookmarkId)) {
-      setProgress(prev => ({
+    if (!bookProgressFE.currentChapterId || !bookProgressFE.currentSectionId) return;
+    
+    const currentBookmark = {
+      chapterId: bookProgressFE.currentChapterId,
+      sectionId: bookProgressFE.currentSectionId,
+    };
+
+    const isBookmarked = bookProgressFE.bookmarks.some(
+      b => b.chapterId === currentBookmark.chapterId && b.sectionId === currentBookmark.sectionId
+    );
+
+    if (!isBookmarked) {
+      setBookProgressFE(prev => ({
         ...prev,
-        bookmarks: [...prev.bookmarks, bookmarkId]
+        bookmarks: [...prev.bookmarks, currentBookmark]
       }));
-      toast({
-        title: "Bookmark added",
-        description: "You can find this bookmark in your library",
-      });
+      toast({ title: "Bookmark added" });
     } else {
-      setProgress(prev => ({
+      setBookProgressFE(prev => ({
         ...prev,
-        bookmarks: prev.bookmarks.filter(id => id !== bookmarkId)
+        bookmarks: prev.bookmarks.filter(
+          b => !(b.chapterId === currentBookmark.chapterId && b.sectionId === currentBookmark.sectionId)
+        )
       }));
-      toast({
-        title: "Bookmark removed",
-        description: "Bookmark has been removed from your library",
-      });
+      toast({ title: "Bookmark removed" });
     }
   };
 
   const goToPreviousSection = () => {
-    const currentChapterIndex = chapters.findIndex(chapter => chapter.id === progress.currentChapter);
-    const currentSectionIndex = chapters[currentChapterIndex].sections.findIndex(section => section.id === progress.currentSection);
+    if (!bookProgressFE.currentChapterId || !bookProgressFE.currentSectionId) return;
+    const currentChapterIndex = chaptersFE.findIndex(chapter => chapter.id === bookProgressFE.currentChapterId);
+    if (currentChapterIndex === -1) return;
+
+    const currentChapter = chaptersFE[currentChapterIndex];
+    const currentSectionIndex = currentChapter.sections.findIndex(section => section.id === bookProgressFE.currentSectionId);
+    if (currentSectionIndex === -1) return;
     
     if (currentSectionIndex > 0) {
-      // Go to previous section in the same chapter
-      const prevSection = chapters[currentChapterIndex].sections[currentSectionIndex - 1];
-      handleChapterChange(progress.currentChapter, prevSection.id);
+      const prevSection = currentChapter.sections[currentSectionIndex - 1];
+      handleChapterSectionChange(currentChapter.id, prevSection.id);
     } else if (currentChapterIndex > 0) {
-      // Go to the last section of the previous chapter
-      const prevChapter = chapters[currentChapterIndex - 1];
+      const prevChapter = chaptersFE[currentChapterIndex - 1];
       const lastSection = prevChapter.sections[prevChapter.sections.length - 1];
-      handleChapterChange(prevChapter.id, lastSection.id);
+      handleChapterSectionChange(prevChapter.id, lastSection.id);
     }
   };
 
   const goToNextSection = () => {
-    const currentChapterIndex = chapters.findIndex(chapter => chapter.id === progress.currentChapter);
-    const currentSectionIndex = chapters[currentChapterIndex].sections.findIndex(section => section.id === progress.currentSection);
+    if (!bookProgressFE.currentChapterId || !bookProgressFE.currentSectionId) return;
+    const currentChapterIndex = chaptersFE.findIndex(chapter => chapter.id === bookProgressFE.currentChapterId);
+     if (currentChapterIndex === -1) return;
+
+    const currentChapter = chaptersFE[currentChapterIndex];
+    const currentSectionIndex = currentChapter.sections.findIndex(section => section.id === bookProgressFE.currentSectionId);
+    if (currentSectionIndex === -1) return;
     
-    if (currentSectionIndex < chapters[currentChapterIndex].sections.length - 1) {
-      // Go to next section in the same chapter
-      const nextSection = chapters[currentChapterIndex].sections[currentSectionIndex + 1];
-      handleChapterChange(progress.currentChapter, nextSection.id);
-    } else if (currentChapterIndex < chapters.length - 1) {
-      // Go to the first section of the next chapter
-      const nextChapter = chapters[currentChapterIndex + 1];
-      const firstSection = nextChapter.sections[0];
-      handleChapterChange(nextChapter.id, firstSection.id);
+    // Mark current section as completed before moving
+    setBookProgressFE(prev => ({
+        ...prev,
+        completedSectionIds: new Set(prev.completedSectionIds).add(bookProgressFE.currentSectionId!)
+    }));
+
+    if (currentSectionIndex < currentChapter.sections.length - 1) {
+      const nextSection = currentChapter.sections[currentSectionIndex + 1];
+      handleChapterSectionChange(currentChapter.id, nextSection.id);
+    } else if (currentChapterIndex < chaptersFE.length - 1) {
+      const nextChapter = chaptersFE[currentChapterIndex + 1];
+      if (nextChapter.sections.length > 0) {
+        const firstSection = nextChapter.sections[0];
+        handleChapterSectionChange(nextChapter.id, firstSection.id);
+      }
     }
   };
 
-  const currentChapterObj = chapters.find(chapter => chapter.id === progress.currentChapter);
-  const currentSectionObj = currentChapterObj?.sections.find(section => section.id === progress.currentSection);
+  const currentChapterObj = chaptersFE.find(chapter => chapter.id === bookProgressFE.currentChapterId);
+  const currentSectionObj = currentChapterObj?.sections.find(section => section.id === bookProgressFE.currentSectionId);
 
-  if (!course) {
-    return <div className="flex items-center justify-center h-screen">Loading...</div>;
+  if (isLoading || authLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <Loader2 className="h-12 w-12 animate-spin text-bible-navy" />
+        <p className="ml-4 text-lg">Loading course content...</p>
+      </div>
+    );
   }
 
-  const percentComplete = Math.round((progress.readPages / progress.totalPages) * 100);
+  if (error) {
+    return (
+      <div className="flex flex-col items-center justify-center h-screen text-center p-4">
+        <h2 className="text-2xl font-semibold text-red-600 mb-4">Error Loading Course</h2>
+        <p className="text-red-500 mb-6">{error}</p>
+        <Button onClick={() => navigate('/courses')}>Back to Courses</Button>
+      </div>
+    );
+  }
+  
+  if (!courseInfo) {
+     return (
+      <div className="flex flex-col items-center justify-center h-screen text-center p-4">
+        <h2 className="text-2xl font-semibold text-gray-700 mb-4">Course Not Found</h2>
+        <p className="text-gray-500 mb-6">The course you are looking for could not be loaded.</p>
+        <Button onClick={() => navigate('/courses')}>Back to Courses</Button>
+      </div>
+    );
+  }
+
+
+  const percentComplete = bookProgressFE.totalPages > 0 
+    ? Math.round((bookProgressFE.completedSectionIds.size / bookProgressFE.totalPages) * 100)
+    : 0;
+
+  const isCurrentSectionBookmarked = bookProgressFE.currentChapterId && bookProgressFE.currentSectionId &&
+    bookProgressFE.bookmarks.some(b => b.chapterId === bookProgressFE.currentChapterId && b.sectionId === bookProgressFE.currentSectionId);
 
   return (
     <div className={cn(
@@ -225,12 +356,12 @@ const BookReader = () => {
           <Button 
             variant="ghost" 
             size="icon" 
-            onClick={() => navigate('/courses')}
-            className={darkMode ? "text-gray-300 hover:text-white" : "text-gray-600 hover:text-gray-900"}
+            onClick={() => navigate('/courses')} // Or to course details page: /courses/${courseIdParam}
+            className={cn(darkMode ? "text-gray-300 hover:text-white" : "text-gray-600 hover:text-gray-900", "button-press")}
           >
             <ArrowLeft className="h-5 w-5" />
           </Button>
-          <h1 className="text-lg font-medium truncate hidden sm:block">{course.title}</h1>
+          <h1 className="text-lg font-medium truncate hidden sm:block">{courseInfo.title}</h1>
         </div>
         
         <div className="flex items-center gap-2">
@@ -239,9 +370,10 @@ const BookReader = () => {
             size="icon" 
             onClick={addBookmark}
             className={cn(
-              progress.bookmarks.includes(progress.currentSection) ? "text-bible-gold" : "",
-              darkMode ? "text-gray-300 hover:text-white" : "text-gray-600 hover:text-gray-900"
+              isCurrentSectionBookmarked ? "text-bible-gold" : (darkMode ? "text-gray-300 hover:text-white" : "text-gray-600 hover:text-gray-900"),
+              "button-press"
             )}
+            disabled={!bookProgressFE.currentSectionId} // Disable if no section selected
           >
             <Bookmark className="h-5 w-5" />
           </Button>
@@ -249,22 +381,11 @@ const BookReader = () => {
             variant="ghost" 
             size="icon" 
             onClick={toggleDarkMode}
-            className={darkMode ? "text-gray-300 hover:text-white" : "text-gray-600 hover:text-gray-900"}
+            className={cn(darkMode ? "text-gray-300 hover:text-white" : "text-gray-600 hover:text-gray-900", "button-press")}
           >
             {darkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
           </Button>
-          <div className="hidden md:flex items-center gap-2 w-40">
-            <span className="text-xs">A-</span>
-            <Slider
-              value={[fontSize]}
-              min={80}
-              max={140}
-              step={10}
-              onValueChange={handleFontSizeChange}
-              className={darkMode ? "bg-gray-800" : "bg-gray-100"}
-            />
-            <span className="text-xs">A+</span>
-          </div>
+          {/* Font size slider can be re-added if needed */}
         </div>
       </header>
 
@@ -276,11 +397,11 @@ const BookReader = () => {
           darkMode ? "bg-gray-800 border-gray-700" : "bg-gray-50 border-gray-200"
         )}>
           <TableOfContents 
-            chapters={chapters} 
-            currentChapter={progress.currentChapter}
-            currentSection={progress.currentSection}
-            onSelectSection={handleChapterChange}
-            bookmarks={progress.bookmarks}
+            chapters={chaptersFE} 
+            currentChapterId={bookProgressFE.currentChapterId}
+            currentSectionId={bookProgressFE.currentSectionId}
+            onSelectSection={handleChapterSectionChange}
+            bookmarks={bookProgressFE.bookmarks}
             darkMode={darkMode}
           />
         </aside>
@@ -288,8 +409,8 @@ const BookReader = () => {
         {/* Reading pane */}
         <main className="flex-1 overflow-auto">
           <ReadingPane 
-            chapter={currentChapterObj} 
-            section={currentSectionObj}
+            chapter={currentChapterObj} // This is BookChapterFE
+            section={currentSectionObj} // This is BookSectionFE
             fontSize={fontSize}
             darkMode={darkMode}
             onPrevious={goToPreviousSection}
@@ -308,40 +429,32 @@ const BookReader = () => {
             <Button 
               variant="outline" 
               onClick={goToPreviousSection}
-              className={darkMode ? "border-gray-700 hover:bg-gray-800" : ""}
+              className={cn(darkMode ? "border-gray-700 hover:bg-gray-800" : "", "button-press")}
+              disabled={!bookProgressFE.currentSectionId}
             >
               Previous
             </Button>
             <Button 
               variant="outline" 
               onClick={goToNextSection}
-              className={darkMode ? "border-gray-700 hover:bg-gray-800" : ""}
+              className={cn(darkMode ? "border-gray-700 hover:bg-gray-800" : "", "button-press")}
+              disabled={!bookProgressFE.currentSectionId}
             >
               Next
             </Button>
           </div>
           
-          <div className="w-full sm:w-1/2 flex items-center gap-2">
+          <div className="w-full sm:w-1/2 flex items-center gap-2 page-fade-in" style={{animationDelay: "0.2s"}}>
             <span className="text-xs whitespace-nowrap">{percentComplete}%</span>
-            <Progress 
+            <ShadProgress // Use renamed ShadProgress
               value={percentComplete} 
-              className={darkMode ? "bg-gray-700" : ""}
+              className={darkMode ? "bg-gray-700 [&>*]:bg-bible-blue" : "[&>*]:bg-bible-navy"} // Customizing progress bar color
             />
-            <span className="text-xs whitespace-nowrap">Page {progress.readPages}/{progress.totalPages}</span>
+            <span className="text-xs whitespace-nowrap">
+              {bookProgressFE.completedSectionIds.size}/{bookProgressFE.totalPages} Sections
+            </span>
           </div>
-
-          <div className="md:hidden flex items-center gap-2">
-            <span className="text-xs">A-</span>
-            <Slider
-              value={[fontSize]}
-              min={80}
-              max={140}
-              step={10}
-              onValueChange={handleFontSizeChange}
-              className={darkMode ? "bg-gray-800" : "bg-gray-100"}
-            />
-            <span className="text-xs">A+</span>
-          </div>
+          {/* Mobile font size slider can be re-added here if necessary */}
         </div>
       </footer>
     </div>

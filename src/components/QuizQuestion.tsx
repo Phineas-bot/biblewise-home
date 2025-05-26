@@ -81,8 +81,15 @@ const QuizQuestion = ({
   
   // Handle short answer input
   const handleShortAnswerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setShortAnswer(e.target.value);
+    const newValue = e.target.value;
+    setShortAnswer(newValue);
     setError('');
+    // Call onAnswer immediately to save the intermediate input
+    // The final correctness for scoring will be based on the state at the time of submission,
+    // but this ensures the typed value is saved if navigating back and forth.
+    if (question.type === 'short-answer') {
+      onAnswer(question.id, newValue, checkAnswer(newValue));
+    }
   };
   
   // Handle short answer submission
@@ -113,7 +120,7 @@ const QuizQuestion = ({
   
   return (
     <div className="max-w-3xl mx-auto">
-      <div className="mb-4 flex justify-between items-center">
+      <div className="mb-4 flex justify-between items-center page-fade-in" style={{animationDelay: "0.1s"}}>
         <div className="text-sm font-medium">
           Question {questionNumber} of {totalQuestions}
         </div>
@@ -127,10 +134,11 @@ const QuizQuestion = ({
       
       <Progress 
         value={(questionNumber / totalQuestions) * 100} 
-        className="h-2 mb-6"
+        className="h-2 mb-6 page-fade-in"
+        style={{animationDelay: "0.2s"}}
       />
       
-      <Card className="animate-fade-in">
+      <Card key={question.id} className="page-fade-in" style={{animationDelay: "0.3s"}}> {/* Added key and page-fade-in */}
         <CardHeader>
           <CardTitle className="text-xl">{question.question}</CardTitle>
         </CardHeader>
@@ -168,11 +176,12 @@ const QuizQuestion = ({
             variant="outline"
             onClick={onPrevious}
             disabled={questionNumber === 1}
+            className="button-press"
           >
             <ArrowLeft className="mr-2 h-4 w-4" /> Previous
           </Button>
           
-          <Button onClick={handleSubmit}>
+          <Button onClick={handleSubmit} className="button-press">
             {isLast ? 'Submit Quiz' : 'Next'}
             {!isLast && <ArrowRight className="ml-2 h-4 w-4" />}
           </Button>

@@ -33,33 +33,33 @@ const Footer = () => {
           <div>
             <h3 className="font-semibold mb-4 text-white">Learn</h3>
             <ul className="space-y-2 text-sm">
-              <li><a href="#" className="text-white/80 hover:text-bible-gold transition-colors">Courses</a></li>
-              <li><a href="#" className="text-white/80 hover:text-bible-gold transition-colors">Quizzes</a></li>
-              <li><a href="#" className="text-white/80 hover:text-bible-gold transition-colors">Certificates</a></li>
-              <li><a href="#" className="text-white/80 hover:text-bible-gold transition-colors">Books</a></li>
-              <li><a href="#" className="text-white/80 hover:text-bible-gold transition-colors">Study Groups</a></li>
+              <li><a href="#" className="text-white/80 hover:text-bible-gold transition-colors animated-underline">Courses</a></li>
+              <li><a href="#" className="text-white/80 hover:text-bible-gold transition-colors animated-underline">Quizzes</a></li>
+              <li><a href="#" className="text-white/80 hover:text-bible-gold transition-colors animated-underline">Certificates</a></li>
+              <li><a href="#" className="text-white/80 hover:text-bible-gold transition-colors animated-underline">Books</a></li>
+              <li><a href="#" className="text-white/80 hover:text-bible-gold transition-colors animated-underline">Study Groups</a></li>
             </ul>
           </div>
           
           <div>
             <h3 className="font-semibold mb-4 text-white">About</h3>
             <ul className="space-y-2 text-sm">
-              <li><a href="#" className="text-white/80 hover:text-bible-gold transition-colors">Our Mission</a></li>
-              <li><a href="#" className="text-white/80 hover:text-bible-gold transition-colors">Instructors</a></li>
-              <li><a href="#" className="text-white/80 hover:text-bible-gold transition-colors">Testimonials</a></li>
-              <li><a href="#" className="text-white/80 hover:text-bible-gold transition-colors">Blog</a></li>
-              <li><a href="#" className="text-white/80 hover:text-bible-gold transition-colors">Contact</a></li>
+              <li><a href="#" className="text-white/80 hover:text-bible-gold transition-colors animated-underline">Our Mission</a></li>
+              <li><a href="#" className="text-white/80 hover:text-bible-gold transition-colors animated-underline">Instructors</a></li>
+              <li><a href="#" className="text-white/80 hover:text-bible-gold transition-colors animated-underline">Testimonials</a></li>
+              <li><a href="#" className="text-white/80 hover:text-bible-gold transition-colors animated-underline">Blog</a></li>
+              <li><a href="#" className="text-white/80 hover:text-bible-gold transition-colors animated-underline">Contact</a></li>
             </ul>
           </div>
           
           <div>
             <h3 className="font-semibold mb-4 text-white">Support</h3>
             <ul className="space-y-2 text-sm">
-              <li><a href="#" className="text-white/80 hover:text-bible-gold transition-colors">Help Center</a></li>
-              <li><a href="#" className="text-white/80 hover:text-bible-gold transition-colors">FAQs</a></li>
-              <li><a href="#" className="text-white/80 hover:text-bible-gold transition-colors">Privacy Policy</a></li>
-              <li><a href="#" className="text-white/80 hover:text-bible-gold transition-colors">Terms of Service</a></li>
-              <li><a href="#" className="text-white/80 hover:text-bible-gold transition-colors">Accessibility</a></li>
+              <li><a href="#" className="text-white/80 hover:text-bible-gold transition-colors animated-underline">Help Center</a></li>
+              <li><a href="#" className="text-white/80 hover:text-bible-gold transition-colors animated-underline">FAQs</a></li>
+              <li><a href="#" className="text-white/80 hover:text-bible-gold transition-colors animated-underline">Privacy Policy</a></li>
+              <li><a href="#" className="text-white/80 hover:text-bible-gold transition-colors animated-underline">Terms of Service</a></li>
+              <li><a href="#" className="text-white/80 hover:text-bible-gold transition-colors animated-underline">Accessibility</a></li>
             </ul>
           </div>
         </div>
